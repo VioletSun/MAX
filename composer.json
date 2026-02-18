@@ -12,11 +12,11 @@
     "homepage": "https://github.com/violetsun/max",
     "keywords": ["Laravel", "MAX"],
     "require": {
-        "illuminate/support": "~9"
+        "illuminate/support": "~12"
     },
     "require-dev": {
-        "phpunit/phpunit": "~9.0",
-        "orchestra/testbench": "~7"
+        "phpunit/phpunit": "~11.0",
+        "orchestra/testbench": "~10"
     },
     "autoload": {
         "psr-4": {
