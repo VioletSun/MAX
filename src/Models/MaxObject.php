@@ -24,12 +24,6 @@ class MaxObject extends Model
     /*****************************************************
      * PUBLIC METHODS
      ****************************************************/
-
-    /**
-     * Получаем данные
-     * @example https://github.com/BushlanovDev/max-bot-api-client-php/blob/master/docs/README.md#Получение-обновлений-через-Long-Polling
-     * @return void
-     */
     public function getUpdates()
     {
         $resp = $this->api->getUpdates(
