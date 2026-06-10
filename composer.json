@@ -12,6 +12,7 @@
     "homepage": "https://github.com/violetsun/max",
     "keywords": ["Laravel", "MAX"],
     "require": {
+        "illuminate/database": "^12.0",
         "illuminate/support": "~12"
     },
     "require-dev": {

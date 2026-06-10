@@ -15,7 +15,7 @@ class MAXServiceProvider extends ServiceProvider
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'violetsun');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'violetsun');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Publishing is only necessary when using the CLI.
@@ -31,7 +31,7 @@ class MAXServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/max.php', 'max');
+        $this->mergeConfigFrom(__DIR__ . '/../config/max.php', 'max');
 
         // Register the service the package provides.
         $this->app->singleton('max', function ($app) {
@@ -58,7 +58,7 @@ class MAXServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/max.php' => config_path('max.php'),
+            __DIR__ . '/../config/max.php' => config_path('max.php'),
         ], 'max.config');
 
         // Publishing the views.
