@@ -61,6 +61,10 @@ class MAXServiceProvider extends ServiceProvider
             __DIR__ . '/../config/max.php' => config_path('max.php'),
         ], 'max.config');
 
+        $this->publishesMigrations([
+            __DIR__.'/../database/migrations' => database_path('migrations'),
+        ]);
+
         // Publishing the views.
         /*$this->publishes([
             __DIR__.'/../resources/views' => base_path('resources/views/vendor/violetsun'),

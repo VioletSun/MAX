@@ -16,6 +16,7 @@ Via Composer
 
 ```bash
 composer require violetsun/max
+php artisan vendor:publish --provider="VioletSun\MAX\MAXServiceProvider"
 ```
 
 ## Usage
