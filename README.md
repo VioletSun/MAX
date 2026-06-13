@@ -2,9 +2,11 @@
 
 
 [![Laravel](https://img.shields.io/badge/LaravelPackage-available-success?logo=laravel&style=flat-square)](https://github.com/VioletSun/MAX)
+[![Laravel versions](https://badge.laravel.cloud/badge/wendelladriel/laravel-expressive?style=flat)](https://github.com/VioletSun/MAX)
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![PHP version](https://img.shields.io/badge/php-8.2-3wefg3.svg?style=flat-square)](https://github.com/VioletSun/MAX)
 [![Total Downloads][ico-downloads]][link-downloads]
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VioletSun/MAX)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 
@@ -13,11 +15,21 @@ This is where your description should go. Take a look at [contributing.md](contr
 ## Installation
 
 Via Composer
-
 ```bash
 composer require violetsun/max
+```
+
+Package vendor publish
+```bash
 php artisan vendor:publish --provider="VioletSun\MAX\MAXServiceProvider"
 ```
+or
+```bash
+php artisan vendor:publish --tag=max-config
+php artisan vendor:publish --tag=max-migrations
+```
+
+.env
 
 ## Usage
 
