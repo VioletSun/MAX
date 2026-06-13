@@ -4,11 +4,17 @@
 
 ## In development
 
-- [ ] Update 
-- [ ] This task is open @owner
-- [ ] This task is open @owner
-    - [ ] And it has a subtask!
+- [ ] Migrations
+    - [ ] max_updates
+    - [ ] max_users
+- [ ] Models
+    - [ ] MaxUpdate
+    - [ ] MaxUser
+    - [ ] MaxObject
+- [ ] Methods
+    - [ ] Max::Update()
 
-# Documentation
+## Documentation
 
-- [ ] This task is postponed
+- [ ] I have to get started...
+

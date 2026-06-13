@@ -10,7 +10,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VioletSun/MAX)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-![Project Status](https://img.shields.io/badge/status-in%20development-orange.svg)
+[![Project Status](https://img.shields.io/badge/Status-In%20development-orange.svg)](https://github.com/VioletSun/MAX/blob/main/TODO.md)
 
 ## Installation
 
