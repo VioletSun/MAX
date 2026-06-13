@@ -1,4 +1,6 @@
-# MAX
+# MAX 
+
+[![API MAX](https://img.shields.io/badge/Official_API_doc-MAX-8f3fff?logo=message-square&style=flat-square)](https://dev.max.ru/docs)
 
 [![Laravel](https://img.shields.io/badge/LaravelPackage-available-success?logo=laravel&style=flat-square)](https://github.com/VioletSun/MAX)
 [![Laravel versions](https://badge.laravel.cloud/badge/wendelladriel/laravel-expressive?style=flat)](https://github.com/VioletSun/MAX)
@@ -9,9 +11,6 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 ![Project Status](https://img.shields.io/badge/status-in%20development-orange.svg)
-
-
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
 
 ## Installation
 
