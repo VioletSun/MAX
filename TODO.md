@@ -5,8 +5,8 @@
 ## In development
 
 - [ ] Migrations
-    - [ ] max_updates
-    - [ ] max_users
+    - [x] max_updates
+    - [x] max_users
 - [ ] Enums
     - [ ] Action
     - [ ] AttachmentType

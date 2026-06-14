@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('max_updates', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable();
-            $table->bigInteger('remote_chat_id')->nullable();
-            $table->bigInteger('remote_user_id')->nullable();
+            $table->bigInteger('chat_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
             $table->json('data');
             $table->smallInteger('processing')->default(-1);
             $table->timestamps();
