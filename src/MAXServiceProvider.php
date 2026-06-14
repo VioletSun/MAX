@@ -61,7 +61,7 @@ class MAXServiceProvider extends ServiceProvider
             __DIR__ . '/../config/max.php' => config_path('max.php'),
         ], 'max-config');
 
-        $this->publishesMigrations([
+        $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'max-migrations');
 
