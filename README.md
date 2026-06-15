@@ -58,7 +58,7 @@ If you discover any security related issues, please email demettriss@gmail.com i
 
 ## License
 
-MIT. Please see the [license file](license.md) for more information.
+[license file](LICENSE)
 
 [ico-version]: https://img.shields.io/packagist/v/violetsun/max.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/violetsun/max.svg?style=flat-square
