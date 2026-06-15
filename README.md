@@ -30,6 +30,9 @@ php artisan vendor:publish --tag=max-migrations
 ```
 
 .env
+```bash
+MAX_API_KEY="YOUR_MAX_API_KEY"
+```
 
 ## Usage
 
