@@ -21,15 +21,7 @@ class Client
 
         $defaultHeaders = array_filter([
             'Accept' => 'application/json',
-            'Authorization' => $apiKey ? 'Bearer ' . $apiKey : null,
-        ]);
-
-        Log::debug('Client', [
-            'base_uri' => $baseUri,
-            'timeout' => $timeout,
-            'headers' => $headers,
-            'apiKey' => $apiKey,
-            'defaultHeaders' => $defaultHeaders
+            'Authorization' => $apiKey ? $apiKey : null,
         ]);
 
         $this->http = new GuzzleClient([
