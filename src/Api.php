@@ -12,4 +12,9 @@ class Api
     {
         return $this->client->get("me");
     }
+
+    public function send(int|string $chat_id, array $data): array
+    {
+        return $this->client->post("messages", $data, ["chat_id" => $chat_id]);
+    }
 }

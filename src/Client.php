@@ -4,6 +4,7 @@ namespace VioletSun\MAX;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 
 class Client
 {
@@ -21,6 +22,14 @@ class Client
         $defaultHeaders = array_filter([
             'Accept' => 'application/json',
             'Authorization' => $apiKey ? 'Bearer ' . $apiKey : null,
+        ]);
+
+        Log::debug('Client', [
+            'base_uri' => $baseUri,
+            'timeout' => $timeout,
+            'headers' => $headers,
+            'apiKey' => $apiKey,
+            'defaultHeaders' => $defaultHeaders
         ]);
 
         $this->http = new GuzzleClient([

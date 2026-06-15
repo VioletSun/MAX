@@ -3,9 +3,13 @@
 namespace VioletSun\MAX\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use VioletSun\MAX\Api;
 
 /**
  * @method static array me()
+ * @method static array send(int|string $chat_id, array $data)
+ *
+ * @see Api
  */
 class MAX extends Facade
 {
