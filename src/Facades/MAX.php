@@ -7,7 +7,7 @@ use VioletSun\MAX\Api;
 
 /**
  * @method static array me()
- * @method static array send(int|string $chat_id, array $data)
+ * @method static array sendMessage(int|string $chat_id, array $data)
  *
  * @see Api
  */

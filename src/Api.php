@@ -2,19 +2,15 @@
 
 namespace VioletSun\MAX;
 
+use VioletSun\MAX\Methods\Get;
+use VioletSun\MAX\Methods\Message;
+
 class Api
 {
+    use Get;
+    use Message;
+
     public function __construct(protected Client $client)
     {
-    }
-
-    public function me(): array
-    {
-        return $this->client->get("me");
-    }
-
-    public function send(int|string $chat_id, array $data): array
-    {
-        return $this->client->post("messages", $data, ["chat_id" => $chat_id]);
     }
 }
