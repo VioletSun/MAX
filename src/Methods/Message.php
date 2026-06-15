@@ -25,6 +25,6 @@ trait Message
 
     public function sendMessage(int|string $chat_id, array $data): array
     {
-        return $this->post("messages", $data, ["chat_id" => $chat_id]);
+        return $this->client->post("messages", $data, ["chat_id" => $chat_id]);
     }
 }
