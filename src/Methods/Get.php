@@ -19,6 +19,6 @@ trait Get
      */
     public function me(): array
     {
-        return $this->get("me");
+        return $this->client->get("me");
     }
 }
