@@ -33,6 +33,18 @@ php artisan vendor:publish --tag=max-migrations
 
 ## Usage
 
+**Send a message**
+
+```php
+MAX::sendMessage(
+    1234567890, 
+    [
+        'text' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+        // there will be more to come...
+    ]
+);
+```
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.

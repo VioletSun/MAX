@@ -1,6 +1,6 @@
 {
     "name": "violetsun/max",
-    "description": "Laravel MAX messenger API package",
+    "description": "MAX Messenger SDK Bot API PHP",
     "license": "MIT",
     "authors": [
         {

@@ -25,14 +25,16 @@
     - [ ] UpdateType
     - [ ] UploadType
 - [ ] Models
-    - [ ] MaxUpdate
+    - [x] MaxUpdate
     - [x] MaxUser
     - [ ] MaxObject
 - [ ] Methods
+    - [x] Max::me()
+    - [x] Max::sendMessage()
     - [ ] Max::Update()
 - [ ] Other
-    - [ ] Api
-    - [ ] Client
+    - [x] Api
+    - [x] Client
 
 ## Documentation
 
