@@ -17,13 +17,15 @@
         "laravel max sdk",
 
         "max",
+        "max sdk",
         "max bot",
         "max bot api",
         "max php",
 
         "api",
         "bot",
-        "php"
+        "php",
+        "sdk"
     ],
     "require": {
         "php": ">=8.0",
