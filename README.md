@@ -19,7 +19,7 @@ Via Composer
 composer require violetsun/max
 ```
 
-Package vendor publish
+Package vendor publish, if you need to change the parameters
 ```bash
 php artisan vendor:publish --provider="VioletSun\MAX\MAXServiceProvider"
 ```
