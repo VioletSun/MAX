@@ -7,7 +7,7 @@ namespace VioletSun\MAX\Enums;
 /**
  * Defines the permissions an administrator can have in a chat.
  */
-enum ChatAdminPermission: string
+enum ChatAdminPermissionEnum: string
 {
     case ReadAllMessages = 'read_all_messages';
     case AddRemoveMembers = 'add_remove_members';

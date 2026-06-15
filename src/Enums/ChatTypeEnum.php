@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum ChatType: string
+enum ChatTypeEnum: string
 {
     case Dialog = 'dialog';
     case Chat = 'chat';

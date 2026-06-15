@@ -26,7 +26,7 @@
     - [ ] UploadType
 - [ ] Models
     - [ ] MaxUpdate
-    - [ ] MaxUser
+    - [x] MaxUser
     - [ ] MaxObject
 - [ ] Methods
     - [ ] Max::Update()

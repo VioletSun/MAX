@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum InlineButtonType: string
+enum InlineButtonTypeEnum: string
 {
     case Callback = 'callback';
     case Link = 'link';

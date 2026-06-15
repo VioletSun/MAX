@@ -10,10 +10,31 @@
         }
     ],
     "homepage": "https://github.com/violetsun/max",
-    "keywords": ["Laravel", "MAX"],
+    "keywords": [
+        "laravel",
+        "laravel max",
+        "laravel max bot",
+        "laravel max sdk",
+
+        "max",
+        "max bot",
+        "max bot api",
+        "max php",
+
+        "api",
+        "bot",
+        "php"
+    ],
     "require": {
-        "illuminate/database": "^12.0",
-        "illuminate/support": "~12"
+        "php": ">=8.0",
+        "ext-json": "*",
+        "illuminate/database": "9 - 13",
+        "illuminate/support": "9 - 13",
+        "guzzlehttp/guzzle": "^7.5.1",
+        "guzzlehttp/psr7": "^2.5",
+        "league/event": "^2.2 || ^3.0",
+        "psr/container": "^1.1 || ^2.0",
+        "psr/event-dispatcher": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~11.0",

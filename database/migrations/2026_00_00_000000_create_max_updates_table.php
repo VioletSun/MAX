@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('data');
             $table->smallInteger('processing')->default(-1);
             $table->timestamps();
+
+            $table->index('processing');
         });
     }
 

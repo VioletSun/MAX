@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum Intent: string
+enum IntentEnum: string
 {
     case Positive = 'positive';
     case Negative = 'negative';

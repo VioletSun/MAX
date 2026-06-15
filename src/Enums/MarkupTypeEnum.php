@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum MarkupType: string
+enum MarkupTypeEnum: string
 {
     case Strong = 'strong';
     case Emphasized = 'emphasized';

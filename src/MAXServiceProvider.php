@@ -34,9 +34,27 @@ class MAXServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/max.php', 'max');
 
         // Register the service the package provides.
-        $this->app->singleton('max', function ($app) {
-            return new MAX;
+//        $this->app->singleton('max', function ($app) {
+//            return new MAX;
+//        });
+
+        // Client
+        $this->app->singleton(Client::class, function ($app) {
+            $config = $app['config']->get('max', []);
+            return new Client(
+                baseUri: $config['base_uri'] ?? '',
+                apiKey: $config['api_key'] ?? null,
+                timeout: $config['timeout'] ?? 10.0
+            );
         });
+
+        // Api (uses Client)
+        $this->app->singleton(Api::class, function ($app) {
+            return new Api($app->make(Client::class));
+        });
+
+        // Alias for the facade
+        $this->app->alias(Api::class, 'max.api');
     }
 
     /**
@@ -64,21 +82,6 @@ class MAXServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'max-migrations');
-
-        // Publishing the views.
-        /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/violetsun'),
-        ], 'max.views');*/
-
-        // Publishing assets.
-        /*$this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/violetsun'),
-        ], 'max.assets');*/
-
-        // Publishing the translation files.
-        /*$this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/violetsun'),
-        ], 'max.lang');*/
 
         // Registering package commands.
         // $this->commands([]);

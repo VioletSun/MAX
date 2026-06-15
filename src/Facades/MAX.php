@@ -4,6 +4,9 @@ namespace VioletSun\MAX\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static array me()
+ */
 class MAX extends Facade
 {
     /**
@@ -13,6 +16,6 @@ class MAX extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'max';
+        return 'max.api';
     }
 }

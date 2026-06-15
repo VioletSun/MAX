@@ -7,7 +7,7 @@ namespace VioletSun\MAX\Enums;
 /**
  * Represents the different actions a bot can send to a chat to indicate its status.
  */
-enum SenderAction: string
+enum SenderActionEnum: string
 {
     case TypingOn = 'typing_on';
     case SendingPhoto = 'sending_photo';

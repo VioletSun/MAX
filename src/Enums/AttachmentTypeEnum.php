@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum AttachmentType: string
+enum AttachmentTypeEnum: string
 {
     case Image = 'image';
     case Video = 'video';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum ReplyButtonType: string
+enum ReplyButtonTypeEnum: string
 {
     case Message = 'message';
     case UserGeoLocation = 'user_geo_location';

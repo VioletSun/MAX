@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Enums;
 
-enum ChatStatus: string
+enum ChatStatusEnum: string
 {
     case Active = 'active';
     case Removed = 'removed';

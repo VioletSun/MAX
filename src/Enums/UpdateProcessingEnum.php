@@ -5,24 +5,14 @@ declare(strict_types=1);
 namespace VioletSun\MAX\Enums;
 
 /**
- * Represents the different types of events (updates) that can happen in a chat.
+ * Data processing statuses
  */
-enum UpdateProcessing: string
+enum UpdateProcessingEnum: int
 {
-    case MessageCreated = 'message_created';
-    case MessageCallback = 'message_callback';
-    case MessageEdited = 'message_edited';
-    case MessageRemoved = 'message_removed';
-    case BotAdded = 'bot_added';
-    case BotRemoved = 'bot_removed';
-    case DialogMuted = 'dialog_muted';
-    case DialogUnmuted = 'dialog_unmuted';
-    case DialogCleared = 'dialog_cleared';
-    case DialogRemoved = 'dialog_removed';
-    case UserAdded = 'user_added';
-    case UserRemoved = 'user_removed';
-    case BotStarted = 'bot_started';
-    case BotStopped = 'bot_stopped';
-    case ChatTitleChanged = 'chat_title_changed';
-    case MessageChatCreated = 'message_chat_created';
+    case Backlog = -1;
+    case InProgress = 0;
+    case Completed = 1;
+    case Failed = 2;
+    case FurtherRevision = 3;
+
 }
