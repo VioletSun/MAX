@@ -44,13 +44,15 @@ class MAXServiceProvider extends ServiceProvider
             return new Client(
                 baseUri: $config['base_uri'] ?? null,
                 apiKey: $config['api_key'] ?? null,
-                timeout: $config['timeout'] ?? null
+                timeout: $config['timeout'] ?? null,
+                save_data: $config['save_data'] ?? false,
             );
         });
 
         // Api (uses Client)
         $this->app->singleton(Api::class, function ($app) {
-            return new Api($app->make(Client::class));
+            $config = $app['config']->get('max', []);
+            return new Api($app->make(Client::class), $config);
         });
 
         // Alias for the facade

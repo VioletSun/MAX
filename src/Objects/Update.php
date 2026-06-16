@@ -17,6 +17,11 @@ class Update extends BaseObject
      */
 
     /**
+     * TODO: при создании этого объекта проверять, есть ли мы в БД...
+     * если настройки включены для сохранения данных в БД MAX_SAVE_DATA
+     */
+
+    /**
      * TODO: убрать
      */
     public function message(): ?Message { return $this->get('message'); }

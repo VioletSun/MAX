@@ -11,4 +11,11 @@ return [
     | Your MAX API key                                                         |
     |-------------------------------------------------------------------------*/
     'api_key' => env('MAX_API_KEY'),
+
+    /*-------------------------------------------------------------------------|
+    | Save data to database                                                    |
+    | Default: false                                                           |
+    | Need: Package vendor publish and migrations                              |
+    |-------------------------------------------------------------------------*/
+    'save_data' => env('MAX_SAVE_DATA'),
 ];

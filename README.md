@@ -29,6 +29,11 @@ php artisan vendor:publish --tag=max-config
 php artisan vendor:publish --tag=max-migrations
 ```
 
+Migrations (after vendor publish)
+```bash
+php artisan migrate
+```
+
 .env
 ```bash
 MAX_API_KEY="YOUR_MAX_API_KEY"
