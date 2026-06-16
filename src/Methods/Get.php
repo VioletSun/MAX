@@ -3,6 +3,7 @@
 namespace VioletSun\MAX\Methods;
 
 use VioletSun\MAX\Client;
+use VioletSun\MAX\Enums\UpdateTypeEnum;
 
 /**
  * Class Get.
@@ -20,5 +21,29 @@ trait Get
     public function me(): array
     {
         return $this->client->get("me");
+    }
+
+    /**
+     * Receiving event updates via Long Polling.
+     *
+     * @param int|null $limit
+     * @param int|null $timeout
+     * @param int|null $marker
+     * @param UpdateTypeEnum|null $types
+     *
+     * @return array
+     *
+     * @link https://dev.max.ru/docs-api/methods/GET/updates
+     */
+    public function updates(?int $limit = 100, ?int $timeout = 10, ?int $marker = null, ?UpdateTypeEnum $types = null): array
+    {
+        $args = compact('limit', 'timeout');
+        if (!is_null($marker)) {
+            $args['marker'] = $marker;
+        }
+        if (!empty($types)) {
+            $args['types'] = $types->value;
+        }
+        return $this->client->get("updates", $args);
     }
 }

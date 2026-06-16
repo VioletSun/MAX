@@ -42,9 +42,9 @@ class MAXServiceProvider extends ServiceProvider
         $this->app->singleton(Client::class, function ($app) {
             $config = $app['config']->get('max', []);
             return new Client(
-                baseUri: $config['base_uri'] ?? '',
+                baseUri: $config['base_uri'] ?? null,
                 apiKey: $config['api_key'] ?? null,
-                timeout: $config['timeout'] ?? 10.0
+                timeout: $config['timeout'] ?? null
             );
         });
 

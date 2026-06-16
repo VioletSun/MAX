@@ -1,10 +1,14 @@
 <?php
 
 return [
-    'base_uri' => env('MAX_BASE_URI', 'https://platform-api.max.ru'),
-    'api_key' => env('MAX_API_KEY', ''),
-    'timeout' => env('MAX_TIMEOUT', 10),
-    'headers' => [
-        'Accept' => 'application/json',
-    ],
+    /*-------------------------------------------------------------------------|
+    | Base API Url [Optional]                                                  |
+    | Default: https://platform-api.max.ru                                     |
+    |-------------------------------------------------------------------------*/
+    'base_uri' => env('MAX_BASE_URI'),
+
+    /*-------------------------------------------------------------------------|
+    | Your MAX API key                                                         |
+    |-------------------------------------------------------------------------*/
+    'api_key' => env('MAX_API_KEY'),
 ];

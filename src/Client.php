@@ -4,7 +4,6 @@ namespace VioletSun\MAX;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Log;
 
 class Client
 {
@@ -12,22 +11,19 @@ class Client
     protected ?string $apiKey;
 
     public function __construct(
-        string $baseUri,
+        ?string $baseUri = 'https://platform-api.max.ru',
         ?string $apiKey = null,
-        float $timeout = 10.0,
-        array $headers = []
+        int $timeout = 10
     ) {
         $this->apiKey = $apiKey;
-
-        $defaultHeaders = array_filter([
-            'Accept' => 'application/json',
-            'Authorization' => $apiKey ? $apiKey : null,
-        ]);
 
         $this->http = new GuzzleClient([
             'base_uri' => rtrim($baseUri, '/') . '/',
             'timeout' => $timeout,
-            'headers' => array_merge($defaultHeaders, $headers),
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => $apiKey ?? null,
+            ],
         ]);
     }
 
