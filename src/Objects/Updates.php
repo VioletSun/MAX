@@ -1,15 +1,15 @@
 <?php
 
-namespace VioletSun\MAX\Dto;
+namespace VioletSun\MAX\Objects;
 
-class UpdatesEnvelope extends BaseObject
+class Updates extends BaseObject
 {
     protected static array $schema = [
-        'updates[]' => UpdateItem::class, // список апдейтов
+        'updates[]' => Update::class, // список апдейтов
     ];
 
     /**
-     * @return UpdateItem[]
+     * @return Update[]
      */
     public function updates(): array
     {

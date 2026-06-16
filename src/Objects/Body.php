@@ -1,6 +1,6 @@
 <?php
 
-namespace VioletSun\MAX\Dto;
+namespace VioletSun\MAX\Objects;
 
 class Body extends BaseObject
 {

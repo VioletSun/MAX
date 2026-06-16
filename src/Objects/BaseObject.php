@@ -1,36 +1,54 @@
 <?php
 
-namespace Telegram\Bot\Objects;
+namespace VioletSun\MAX\Objects;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\EnumeratesValues;
-use InvalidArgumentException;
 
-/**
- * Class BaseObject.
- *
- * @mixin Collection
- */
 abstract class BaseObject extends Collection
 {
-    /**
-     * Builds collection entity.
-     *
-     * @param  array|mixed  $data
-     */
-    public function __construct($data)
+    // Определяется в наследниках:
+    // protected static array $schema = [
+    //     'key.path' => ClassName::class, // одиночный объект
+    //     'key.list[]' => ClassName::class, // список объектов
+    // ];
+    public static function fromArray(array $data): static
     {
-        parent::__construct($this->getRawResult($data));
+        $instance = new static($data);
+        $instance->applySchema();
+        return $instance;
     }
 
-    /**
-     * Returns raw result.
-     */
-    public function getRawResult($data): mixed
+    protected function applySchema(): void
     {
-        return data_get($data, 'result', $data);
+        $schema = static::$schema ?? [];
+        foreach ($schema as $path => $class) {
+            $isList = str_ends_with($path, '[]');
+            $cleanPath = $isList ? substr($path, 0, -2) : $path;
+
+            if (!Arr::has($this->items, $cleanPath)) {
+                continue;
+            }
+
+            $value = Arr::get($this->items, $cleanPath);
+
+            if ($value === null) {
+                continue;
+            }
+
+            if ($isList) {
+                if (is_array($value)) {
+                    $mapped = array_map(function ($v) use ($class) {
+                        return is_array($v) ? $class::fromArray($v) : $v;
+                    }, $value);
+                    Arr::set($this->items, $cleanPath, $mapped);
+                }
+            } else {
+                if (is_array($value)) {
+                    Arr::set($this->items, $cleanPath, $class::fromArray($value));
+                }
+            }
+        }
     }
 
     /**
@@ -40,163 +58,37 @@ abstract class BaseObject extends Collection
      */
     public function __get($key)
     {
-        return $this->getPropertyValue($key);
+        return Arr::get($this->items, $key);
     }
 
-    public function __set(string $name, mixed $value): void
+    // Хелперы для удобного доступа с типами
+    public function getString(string $path, ?string $default = null): ?string
     {
-        throw new InvalidArgumentException(sprintf('Cannot set property “%s” on “%s” immutable object.', $name, static::class));
+        $v = Arr::get($this->items, $path, $default);
+        return is_scalar($v) ? (string) $v : $default;
     }
 
-    /**
-     * Magically map to an object class (if exists) and return data.
-     *
-     * @param  string  $property  Name of the property or relation.
-     * @param  mixed  $default  Default value or \Closure that returns default value.
-     */
-    protected function getPropertyValue(string $property, mixed $default = null): mixed
+    public function getInt(string $path, ?int $default = null): ?int
     {
-        $property = Str::snake($property);
-        if (! $this->offsetExists($property)) {
-            return value($default);
-        }
-
-        $value = $this->items[$property];
-
-        $relations = $this->relations();
-        if (isset($relations[$property])) {
-            return $this->getRelationValue($property, $value);
-        }
-
-        /** @var BaseObject $class */
-        $class = 'Telegram\Bot\Objects\\'.Str::studly($property);
-
-        if (class_exists($class)) {
-            return $class::make($value);
-        }
-
-        if (is_array($value)) {
-            return TelegramObject::make($value);
-        }
-
-        return $value;
+        $v = Arr::get($this->items, $path, $default);
+        return is_numeric($v) ? (int) $v : $default;
     }
 
-    /**
-     * Property relations.
-     */
-    abstract public function relations(): array;
-
-    /**
-     * @return array|Enumerable|EnumeratesValues|BaseObject
-     */
-    protected function getRelationValue(string $relativeName, iterable $relativeData): mixed
+    public function getBool(string $path, ?bool $default = null): ?bool
     {
-        /** @var class-string<BaseObject>|list<class-string<BaseObject>> $relative */
-        $relative = $this->relations()[$relativeName];
-
-        if (is_string($relative)) {
-            if (! class_exists($relative)) {
-                throw new InvalidArgumentException(sprintf('Could not load “%s” relative: class “%s” not found.', $relativeName, $relative));
-            }
-
-            return $relative::make($relativeData);
-        }
-
-        /** @var class-string<BaseObject> $relativeClass */
-        $relativeClass = $relative[0];
-        $relatedObjects = Collection::make();
-        // @todo array type can be used in v4
-        foreach ($relativeData as $data) {
-            $relatedObjects->add($relativeClass::make($data));
-        }
-
-        return $relatedObjects;
+        $v = Arr::get($this->items, $path, $default);
+        return is_bool($v) ? $v : (is_numeric($v) ? (bool) $v : $default);
     }
 
-    public function __isset(string $name): bool
+    public function getObject(string $path): ?self
     {
-        return $this->getPropertyValue($name) !== null;
+        $v = Arr::get($this->items, $path);
+        return $v instanceof self ? $v : null;
     }
 
-    /**
-     * Get an item from the collection by key.
-     *
-     * @param  mixed  $key
-     * @param  mixed  $default
-     */
-    public function get($key, $default = null): mixed
+    public function getList(string $path): array
     {
-        $value = parent::get($key, $default);
-
-        if (is_array($value)) {
-            return $this->getPropertyValue($key, $default);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Returns raw response.
-     *
-     * @return array|mixed
-     */
-    public function getRawResponse(): mixed
-    {
-        return $this->items;
-    }
-
-    /**
-     * Get Status of request.
-     */
-    public function getStatus(): mixed
-    {
-        return data_get($this->items, 'ok', false);
-    }
-
-    /**
-     * Determine if the object is of given type.
-     */
-    public function isType(string $type): bool
-    {
-        if ($this->offsetExists($type)) {
-            return true;
-        }
-
-        return $this->objectType() === $type;
-    }
-
-    /**
-     * Detect type based on fields.
-     */
-    public function objectType(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * Magic method to get properties dynamically.
-     *
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        if (! Str::startsWith($method, 'get')) {
-            return false;
-        }
-
-        $property = substr($method, 3);
-
-        return $this->getPropertyValue($property);
-    }
-
-    /**
-     * Determine the type by given types.
-     */
-    protected function findType(array $types): ?string
-    {
-        return $this->keys()
-            ->intersect($types)
-            ->pop();
+        $v = Arr::get($this->items, $path, []);
+        return is_array($v) ? $v : [];
     }
 }
