@@ -3,6 +3,7 @@
 namespace VioletSun\MAX\Methods;
 
 use VioletSun\MAX\Client;
+use VioletSun\MAX\Dto\UpdatesEnvelope;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
 
 /**
@@ -31,11 +32,11 @@ trait Get
      * @param int|null $marker
      * @param UpdateTypeEnum|null $types
      *
-     * @return array
+     * @return UpdatesEnvelope
      *
      * @link https://dev.max.ru/docs-api/methods/GET/updates
      */
-    public function updates(?int $limit = 100, ?int $timeout = 10, ?int $marker = null, ?UpdateTypeEnum $types = null): array
+    public function updates(?int $limit = 100, ?int $timeout = 10, ?int $marker = null, ?UpdateTypeEnum $types = null): UpdatesEnvelope
     {
         $args = compact('limit', 'timeout');
         if (!is_null($marker)) {
@@ -44,6 +45,6 @@ trait Get
         if (!empty($types)) {
             $args['types'] = $types->value;
         }
-        return $this->client->get("updates", $args);
+        return UpdatesEnvelope::fromArray($this->client->get("updates", $args));
     }
 }
