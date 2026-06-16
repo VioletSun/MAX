@@ -51,8 +51,7 @@ class MAXServiceProvider extends ServiceProvider
 
         // Api (uses Client)
         $this->app->singleton(Api::class, function ($app) {
-            $config = $app['config']->get('max', []);
-            return new Api($app->make(Client::class), $config);
+            return new Api($app->make(Client::class));
         });
 
         // Alias for the facade
