@@ -14,8 +14,8 @@ class Client
     public function __construct(
         ?string $baseUri = 'https://platform-api.max.ru',
         ?string $apiKey = null,
-        int $timeout = 10,
-        bool $saveData = false
+        ?int $timeout = 10,
+        ?bool $saveData = false
     ) {
         $this->apiKey = $apiKey;
         $this->saveData = $saveData;

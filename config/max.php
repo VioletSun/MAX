@@ -13,6 +13,12 @@ return [
     'api_key' => env('MAX_API_KEY'),
 
     /*-------------------------------------------------------------------------|
+    | Timeout in seconds for long polling                                      |
+    | Default: 10                                                              |
+    |-------------------------------------------------------------------------*/
+    'timeout' => env('MAX_TIMEOUT'),
+
+    /*-------------------------------------------------------------------------|
     | Save data to database                                                    |
     | Default: false                                                           |
     | Need: Package vendor publish and migrations                              |
