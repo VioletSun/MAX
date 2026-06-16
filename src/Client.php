@@ -66,7 +66,11 @@ class Client
 
             return $decoded ?? [];
         } catch (GuzzleException $e) {
-            return ['status' => false, 'error' => $e->getMessage()];
+            $message = $e->getMessage();
+            if (str_contains($message, 'Operation timed out')) {
+                return [];
+            }
+            return ['status' => false, 'error' => $message];
         }
     }
 }
