@@ -46,6 +46,7 @@ class MAXServiceProvider extends ServiceProvider
                 apiKey: $config['api_key'] ?? null,
                 timeout: $config['timeout'] ?? null,
                 saveData: $config['save_data'] ?? false,
+                enqueue: $config['enqueue'] ?? false,
             );
         });
 

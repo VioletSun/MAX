@@ -45,6 +45,8 @@ trait Get
         if (!empty($types)) {
             $args['types'] = $types->value;
         }
-        return Updates::fromArray($this->client->get("updates", $args));
+        $updates = Updates::fromArray($this->client->get("updates", $args));
+        $updates->handleData();
+        return $updates;
     }
 }

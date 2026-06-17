@@ -10,15 +10,18 @@ class Client
     protected GuzzleClient $http;
     protected ?string $apiKey;
     protected bool $saveData;
+    protected bool $enqueue;
 
     public function __construct(
         ?string $baseUri = 'https://platform-api.max.ru',
         ?string $apiKey = null,
         ?int $timeout = 10,
-        ?bool $saveData = false
+        ?bool $saveData = false,
+        ?bool $enqueue = false
     ) {
         $this->apiKey = $apiKey;
         $this->saveData = $saveData;
+        $this->enqueue = $enqueue;
 
         $this->http = new GuzzleClient([
             'base_uri' => rtrim($baseUri, '/') . '/',
@@ -69,6 +72,7 @@ class Client
 
             if (count($decoded) > 0) {
                 $decoded['save_data'] = $this->saveData;
+                $decoded['enqueue'] = $this->enqueue;
             }
             return $decoded ?? [];
         } catch (GuzzleException $e) {
