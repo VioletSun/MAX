@@ -19,21 +19,23 @@ class Updates extends BaseObject
         $save = $this->getBool('save_data', false) ?? false;
         $enqueue = $this->getBool('enqueue', false) ?? false;
 
-        foreach ($this->updates as $update) {
-            if (!$update instanceof Update) {
-                continue; // protection if someone slips in a non-Update
-            }
+        if (is_array($this->updates)) {
+            foreach ($this->updates as $update) {
+                if (!$update instanceof Update) {
+                    continue; // protection if someone slips in a non-Update
+                }
 
-            try {
-                if ($save) {
-                    $update->saveData($enqueue);
+                try {
+                    if ($save) {
+                        $update->saveData($enqueue);
+                    }
+                    if ($enqueue) {
+                        $update->enqueue();
+                    }
+                } catch (\Throwable $e) {
+                    // логируем и продолжаем
+                    // logger()->error('Update processing failed', ['e' => $e, 'update' => $update]);
                 }
-                if ($enqueue) {
-                    $update->enqueue();
-                }
-            } catch (\Throwable $e) {
-                // логируем и продолжаем
-                // logger()->error('Update processing failed', ['e' => $e, 'update' => $update]);
             }
         }
     }
