@@ -34,63 +34,28 @@ class Update extends BaseObject
 
     public function saveData(?bool $enqueue = false): void
     {
-        // Безопасный парсинг входных полей
-        $message = $this->message;
-        if (!$message) {
-            return;
-        }
+        $chatId = $this->getChatId();
+        $userId = $this->getUserId();
+        $userData = $this->getUserData();
 
-        $recipient = $message->getObject('recipient');
-        $sender = $message->getObject('sender');
-
-        // TODO: тут не тот чат id может быть...
-        // так как сообщение может быть не с диалога
-
-        $chatId = $recipient?->getInt('chat_id');
-        $userId = $sender?->getInt('user_id');
-
-        if (!$chatId) {
-            // Недостаточно данных — можно залогировать и выйти
-            return;
-        }
-
-        // Подготовка данных пользователя
-        $userData = [
-            'chat_id'     => $chatId,
-            'user_id'     => $userId,
-            'first_name'  => $sender?->getString('first_name'),
-            'last_name'   => $sender?->getString('last_name'),
-            'username'    => $sender?->getString('name'),
-            'last_active' => optional($sender?->getInt('last_activity_time')) // мс -> дата
-                ? now()->createFromTimestampMs($sender->getInt('last_activity_time'))
-                : now(),
-            'active'      => true,
-        ];
-
-        // Тип апдейта
         $typeStr = $this->update_type ?? null;
-        // Пытаемся привести к Enum. Если есть фабрика из строки — используйте её.
         $type = UpdateTypeEnum::tryFrom($typeStr) ?? $typeStr;
 
-        // Оборачиваем в транзакцию для целостности
         DB::transaction(function () use ($chatId, $userId, $userData, $type, $enqueue) {
-            // upsert пользователя
-            // Вариант 1: updateOrCreate по (chat_id, user_id)
-            MaxUser::query()->updateOrCreate(
-                ['chat_id' => $chatId, 'user_id' => $userId],
-                Arr::only($userData, [
-                    'first_name', 'last_name', 'username', 'last_active', 'active',
-                ])
-            );
-
-            // Подготовка данных апдейта
-            $updatePayload =
+            if (!empty($userData) && !empty($chatId) && !empty($userId)) {
+                MaxUser::query()->updateOrCreate(
+                    ['chat_id' => $chatId, 'user_id' => $userId],
+                    Arr::only($userData, [
+                        'first_name', 'last_name', 'username', 'last_active', 'active',
+                    ])
+                );
+            }
 
             MaxUpdate::query()->create([
                 'type'       => $type,
                 'chat_id'    => $chatId,
                 'user_id'    => $userId,
-                'data'       => $this->toArray(), // или нормализовать, если нужно меньше данныхl
+                'data'       => $this->toArray(),
                 'processing' => $enqueue ? UpdateProcessingEnum::InProgress : UpdateProcessingEnum::Backlog, // или ваш дефолт
             ]);
         });
@@ -102,5 +67,56 @@ class Update extends BaseObject
         // Иначе — отправляем «сырые» данные
 //        \VioletSun\MAX\Jobs\ProcessUpdate::dispatch($this->toArray())
 //            ->onQueue('max-updates'); // имя очереди по вашему соглашению
+    }
+
+    public function getChatId(): ?int
+    {
+        $message = $this->message;
+        if ($message) {
+            return null;
+        }
+        $recipient = $message->getObject('recipient');
+        return $recipient?->getInt('chat_id');
+    }
+
+    public function getUserChatId(): ?int
+    {
+        $message = $this->message;
+        if ($message) {
+            return null;
+        }
+        $recipient = $message->getObject('recipient');
+        return $recipient?->getInt('chat_id');
+    }
+
+    public function getUserId(): ?int
+    {
+        $message = $this->message;
+        if ($message) {
+            return null;
+        }
+        $sender = $message->getObject('sender');
+        return $sender?->getInt('user_id');
+    }
+
+    public function getUserData(): ?array
+    {
+        $message = $this->message;
+        if ($message) {
+            return null;
+        }
+
+        $sender = $message->getObject('sender');
+        return [
+            'chat_id'     => $this->getUserChatId(),
+            'user_id'     => $this->getUserId(),
+            'first_name'  => $sender?->getString('first_name'),
+            'last_name'   => $sender?->getString('last_name'),
+            'username'    => $sender?->getString('name'),
+            'last_active' => optional($sender?->getInt('last_activity_time')) // мс -> дата
+                ? now()->createFromTimestampMs($sender->getInt('last_activity_time'))
+                : now(),
+            'active'      => true,
+        ];
     }
 }
