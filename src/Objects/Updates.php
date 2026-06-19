@@ -19,8 +19,9 @@ class Updates extends BaseObject
         $save = $this->getBool('save_data', false) ?? false;
         $enqueue = $this->getBool('enqueue', false) ?? false;
 
-        if (is_array($this->updates)) {
-            foreach ($this->updates as $update) {
+        $updates = is_array($this->updates) ? $this->updates : $this;
+        if ($updates) {
+            foreach ($updates as $update) {
                 if (!$update instanceof Update) {
                     continue; // protection if someone slips in a non-Update
                 }

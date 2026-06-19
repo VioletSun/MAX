@@ -10,7 +10,6 @@ use VioletSun\MAX\Models\MaxUpdate;
 use VioletSun\MAX\Models\MaxUser;
 
 /**
- * TODO: сделать properties
  * @property ?Message $message
  * @property ?int $timestamp
  * @property ?string $user_locale
@@ -25,11 +24,6 @@ class Update extends BaseObject
     /**
      * TODO: сделать isChannel, isDialog
      * TODO: update_type в Enum
-     */
-
-    /**
-     * TODO: при создании этого объекта проверять, есть ли мы в БД...
-     * если настройки включены для сохранения данных в БД MAX_SAVE_DATA
      */
 
     public function saveData(?bool $enqueue = false): void
