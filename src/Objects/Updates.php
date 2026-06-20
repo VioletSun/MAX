@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX\Objects;
+
+use VioletSun\MAX\Support\BaseObject;
 
 /**
  * @property Update[] $updates
@@ -8,16 +12,29 @@ namespace VioletSun\MAX\Objects;
  * @property ?bool $save_data
  * @property ?bool $enqueue
  */
-class Updates extends BaseObject
+final class Updates extends BaseObject
 {
-    protected static array $schema = [
-        'updates[]' => Update::class, // список апдейтов
-    ];
-
-    public function handleData()
+    /**
+     * Создает Updates из входящего webhook payload.
+     */
+    public static function fromArray(array $data): static
     {
-        $save = $this->getBool('save_data', false) ?? false;
-        $enqueue = $this->getBool('enqueue', false) ?? false;
+        $updatesRaw = $data['updates'] ?? [];
+        $updates = array_map(fn(array $u) => Update::fromArray($u), $updatesRaw);
+        $object = new self([
+            'save_data' => $data['save_data'] ?? false,
+            'enqueue' => $data['enqueue'] ?? false,
+            'marker' => $data['marker'] ?? null,
+            'updates' => $updates,
+        ]);
+        $object->handleData();
+        return $object;
+    }
+
+    public function handleData(): void
+    {
+        $save = $this->bool('save_data', false);
+        $enqueue = $this->bool('enqueue', false);
 
         $updates = is_array($this->updates) ? $this->updates : $this;
         if ($updates) {

@@ -1,46 +1,125 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX\Objects;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use VioletSun\MAX\Enums\ChatTypeEnum;
 use VioletSun\MAX\Enums\UpdateProcessingEnum;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
 use VioletSun\MAX\Models\MaxUpdate;
 use VioletSun\MAX\Models\MaxUser;
+use VioletSun\MAX\Objects\Callback\Callback;
+use VioletSun\MAX\Objects\Common\User;
+use VioletSun\MAX\Objects\Message\Message;
+use VioletSun\MAX\Support\BaseObject;
 
 /**
- * @property ?Message $message
- * @property ?int $timestamp
- * @property ?string $user_locale
- * @property ?string $update_type
+ * TODO: сделать isChannel, isDialog
+ * @property UpdateTypeEnum $update_type
+ * @property Message|null $message
+ * @property bool|null $is_channel
+ * @property User|null $user
+ * @property Callback|null $callback
  */
-class Update extends BaseObject
+final class Update extends BaseObject
 {
-    protected static array $schema = [
-        'message' => Message::class,
-    ];
+    public static function fromArray(array $data): static
+    {
+        $type = UpdateTypeEnum::tryFrom($data['update_type']);
+        $mapped = [
+            'update_type' => $type,
+            'timestamp' => $data['timestamp'] ?? null,
+            'user_locale' => $data['user_locale'] ?? null,
 
-    /**
-     * TODO: сделать isChannel, isDialog
-     * TODO: update_type в Enum
-     */
+        ];
+
+        // Вариативные поля
+        switch ($type) {
+            case UpdateTypeEnum::BotStarted:
+            case UpdateTypeEnum::BotStopped:
+            case UpdateTypeEnum::BotAdded:
+            case UpdateTypeEnum::BotRemoved:
+            case UpdateTypeEnum::ChatTitleChanged:
+            case UpdateTypeEnum::DialogCleared:
+            case UpdateTypeEnum::DialogMuted:
+            case UpdateTypeEnum::DialogUnmuted:
+            case UpdateTypeEnum::DialogRemoved:
+                if (isset($data['user'])) {
+                    $mapped['user'] = User::fromArray($data['user']);
+                }
+                if (array_key_exists('chat_id', $data)) {
+                    $mapped['chat_id'] = $data['chat_id'];
+                }
+                break;
+
+            case UpdateTypeEnum::MessageCreated:
+            case UpdateTypeEnum::MessageEdited:
+            case UpdateTypeEnum::MessageRemoved:
+                if (isset($data['message'])) {
+                    $mapped['message'] = Message::fromArray($data['message']);
+                }
+                break;
+
+            case UpdateTypeEnum::MessageCallback:
+                if (isset($data['callback'])) {
+                    $mapped['callback'] = Callback::fromArray($data['callback']);
+                }
+                if (isset($data['message'])) {
+                    $mapped['message'] = Message::fromArray($data['message']);
+                }
+                break;
+
+            case UpdateTypeEnum::UserAdded:
+            case UpdateTypeEnum::UserRemoved:
+                if (isset($data['user'])) {
+                    $mapped['user'] = User::fromArray($data['user']);
+                }
+                if (array_key_exists('chat_id', $data)) {
+                    $mapped['chat_id'] = $data['chat_id'];
+                }
+                if (array_key_exists('user_id', $data)) {
+                    $mapped['user_id'] = $data['user_id']; // субъект события
+                }
+                if (array_key_exists('is_channel', $data)) {
+                    $mapped['is_channel'] = (bool)$data['is_channel'];
+                }
+                if (array_key_exists('admin_id', $data)) {
+                    $mapped['admin_id'] = $data['admin_id'];
+                }
+                break;
+        }
+
+        return new self($mapped);
+    }
+
+    public function type(): ?UpdateTypeEnum
+    {
+        return $this->update_type ?? null;
+    }
 
     public function saveData(?bool $enqueue = false): void
     {
-        $chatId = $this->getChatId();
-        $userId = $this->getUserId();
-        $userData = $this->getUserData();
 
-        $typeStr = $this->update_type ?? null;
-        $type = UpdateTypeEnum::tryFrom($typeStr) ?? $typeStr;
+        $chatId = $this->getChatId();
+        $userData = $this->getUserData();
+        $userId = $userData['user_id'] ?? null;
+        $type = $this->update_type;
 
         DB::transaction(function () use ($chatId, $userId, $userData, $type, $enqueue) {
             if (!empty($userData) && !empty($chatId) && !empty($userId)) {
+                $datum = [];
+                foreach ($userData as $key => $val) {
+                    if (is_null($val)) continue;
+                    if ($key == 'private' && $val === false) continue;
+                    $datum[$key] = $val;
+                }
                 MaxUser::query()->updateOrCreate(
                     ['chat_id' => $chatId, 'user_id' => $userId],
-                    Arr::only($userData, [
-                        'first_name', 'last_name', 'username', 'last_active', 'active',
+                    Arr::only($datum, [
+                        'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'private', 'last_active'
                     ])
                 );
             }
@@ -65,52 +144,92 @@ class Update extends BaseObject
 
     public function getChatId(): ?int
     {
-        $message = $this->message;
-        if ($message) {
-            return null;
-        }
-        $recipient = $message->getObject('recipient');
-        return $recipient?->getInt('chat_id');
+        return $this?->chat_id ?? $this?->message?->recipient?->chat_id ?? null;
     }
 
     public function getUserChatId(): ?int
     {
-        $message = $this->message;
-        if ($message) {
-            return null;
-        }
-        $recipient = $message->getObject('recipient');
-        return $recipient?->getInt('chat_id');
+        return $this->isDialog() ? $this->getChatId() : null;
     }
 
     public function getUserId(): ?int
     {
-        $message = $this->message;
-        if ($message) {
-            return null;
-        }
-        $sender = $message->getObject('sender');
-        return $sender?->getInt('user_id');
+        return null;
     }
 
     public function getUserData(): ?array
     {
-        $message = $this->message;
-        if ($message) {
+        if (!$this->isDialog()) {
             return null;
         }
 
-        $sender = $message->getObject('sender');
+        if (
+            !empty($this->type()) &&
+            in_array(
+                $this->type(), [
+                    UpdateTypeEnum::BotStarted,
+                    UpdateTypeEnum::BotStopped
+                ]
+            )
+        ) {
+            $user = $this->user;
+        } elseif ($this?->message?->sender && !$this->isCallback()) {
+            $user = $this->message->sender;
+        } elseif ($this->isCallback()) {
+            $user = $this->callback->user;
+        } else {
+            return null;
+        }
+
+        if ($user->is_bot) {
+            return null;
+        }
+
         return [
             'chat_id'     => $this->getUserChatId(),
-            'user_id'     => $this->getUserId(),
-            'first_name'  => $sender?->getString('first_name'),
-            'last_name'   => $sender?->getString('last_name'),
-            'username'    => $sender?->getString('name'),
-            'last_active' => optional($sender?->getInt('last_activity_time')) // мс -> дата
-                ? now()->createFromTimestampMs($sender->getInt('last_activity_time'))
-                : now(),
-            'active'      => true,
+            'user_id'     => $user->int('user_id'),
+            'first_name'  => $user->str('first_name'),
+            'last_name'   => $user->str('last_name'),
+            'username'    => $user->str('name'),
+            'avatar_url'    => $user->str('avatar_url'),
+            'full_avatar_url'    => $user->str('full_avatar_url'),
+            'last_active' => $user->last_activity_time,
+            'private'     => $this->isDialog(),
         ];
+    }
+
+    public function isDialog(): bool
+    {
+        if (
+            (($chat_type = $this?->message?->recipient?->chat_type ?? null) && $chat_type === ChatTypeEnum::Dialog) ||
+            (
+                !empty($this->type()) &&
+                in_array(
+                    $this->type(), [
+                        UpdateTypeEnum::BotStarted,
+                        UpdateTypeEnum::BotStopped,
+                    ]
+                )
+            )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isChannel(): bool
+    {
+        if (
+            $this->is_channel === true ||
+            (($chat_type = $this?->message?->recipient?->chat_type ?? null) && $chat_type === ChatTypeEnum::Channel)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isCallback(): bool
+    {
+        return $this->type() === UpdateTypeEnum::MessageCallback;
     }
 }

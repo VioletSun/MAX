@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $avatar_url
  * @property string|null $full_avatar_url
  * @property bool $private
- * @property bool $active
  * @property Carbon $last_active
  * @property Carbon $created_at
  * @property Carbon $updatet_at
@@ -42,7 +41,6 @@ class MaxUser extends Model
         'avatar_url',
         'full_avatar_url',
         'private',
-        'active',
         'last_active',
     ];
 
@@ -55,7 +53,6 @@ class MaxUser extends Model
     {
         return [
             'private' => 'boolean',
-            'active' => 'boolean',
             'last_active' => 'datetime'
         ];
     }

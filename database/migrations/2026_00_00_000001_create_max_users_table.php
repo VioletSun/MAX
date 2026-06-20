@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('full_avatar_url')->nullable();
             $table->boolean('private')->default(false);
             $table->timestamp('last_active')->nullable();
-            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
