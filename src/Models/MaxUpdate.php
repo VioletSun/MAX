@@ -3,8 +3,10 @@
 namespace VioletSun\MAX\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use VioletSun\MAX\Enums\UpdateProcessingEnum;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
+use VioletSun\MAX\Objects\Update;
 
 /**
  * @property UpdateTypeEnum $type
@@ -52,8 +54,13 @@ class MaxUpdate extends Model
         });
     }
 
-    public function maxUser()
+    public function maxUser(): HasOne|MaxUser|null
     {
-        return $this->hasOne(MaxUser::class, '', 'user_id');
+        return $this->hasOne(MaxUser::class, 'user_id', 'user_id');
+    }
+
+    public function dataSerialize(): Update
+    {
+        return Update::fromArray($this->data);
     }
 }

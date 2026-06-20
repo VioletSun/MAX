@@ -9,29 +9,41 @@
     - [x] max_users
 - [ ] Enums
     - [ ] Action
-    - [ ] AttachmentType
+    - [x] AttachmentType
     - [ ] ChatAdminPermission
     - [ ] ChatStatus
-    - [ ] ChatType
+    - [x] ChatType
     - [ ] InlineButtonType
     - [ ] Intent
     - [ ] MarkupType
     - [ ] MessageFormat
     - [ ] MessageLinkType
-    - [ ] Method
     - [ ] ReplyButtonType
     - [ ] SenderAction
-    - [ ] UpdateProcessing
-    - [ ] UpdateType
-    - [ ] UploadType
+    - [x] UpdateProcessing
+    - [x] UpdateType
+    - [x] UploadType
 - [ ] Models
     - [x] MaxUpdate
     - [x] MaxUser
-    - [ ] MaxObject
+    - [-] MaxObject
 - [ ] Methods
-    - [x] Max::me()
+    - [ ] Max::me()
     - [x] Max::sendMessage()
-    - [ ] Max::Update()
+    - [x] Max::Update()
+        - [ ] link
+    - [ ] Max::send()
+        - [ ] text
+        - [ ] image
+        - [ ] video
+        - [ ] audio
+        - [ ] file
+        - [ ] sticker
+        - [ ] contact
+        - [ ] inline_keyboard
+        - [ ] reply_keyboard
+        - [ ] location
+        - [ ] share
 - [ ] Other
     - [x] Api
     - [x] Client
