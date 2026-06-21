@@ -18,7 +18,7 @@ final class Attachment extends BaseObject
 
         $payloadRaw = $data['payload'] ?? null;
         if ($type !== null && $payloadRaw !== null) {
-            $payload = self::makeObject('Types', $type->toCamelCase() . 'Payload', $payloadRaw);
+            $payload = self::makeObject('Payloads', $type->toCamelCase() . 'Payload', $payloadRaw);
             $data['payload'] = $payload;
         }
 
@@ -36,7 +36,7 @@ final class Attachment extends BaseObject
 
     private static function makeObject($folder, $className, $data): Attachment|BaseObject
     {
-        $class = 'VioletSun\\MAX\\DTO\\Attachment\\' . $folder . '\\' . $className;
+        $class = 'VioletSun\\MAX\\Objects\\Attachment\\' . $folder . '\\' . $className;
         if (class_exists($class) && method_exists($class, 'fromArray')) {
             /** @var class-string<BaseObject> $class */
             return $class::fromArray($data);

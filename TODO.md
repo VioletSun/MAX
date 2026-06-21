@@ -10,8 +10,9 @@
 - [ ] Enums
     - [ ] Action
     - [x] AttachmentType
+    - [x] ButtonType
     - [ ] ChatAdminPermission
-    - [ ] ChatStatus
+    - [x] ChatStatus
     - [x] ChatType
     - [ ] InlineButtonType
     - [ ] Intent
@@ -26,14 +27,18 @@
 - [ ] Models
     - [x] MaxUpdate
     - [x] MaxUser
-    - [-] MaxObject
 - [ ] Methods
     - [ ] Max::me()
     - [x] Max::sendMessage()
+    - [x] Max::editMessage()
+    - [x] Max::deleteMessage()
     - [x] Max::Update()
         - [ ] link
-    - [ ] Max::send()
-        - [ ] text
+    - [ ] Max::builder()
+        - [x] send
+        - [x] edit
+        - [x] delete
+        - [x] text
         - [ ] image
         - [ ] video
         - [ ] audio

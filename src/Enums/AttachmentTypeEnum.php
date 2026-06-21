@@ -23,8 +23,8 @@ enum AttachmentTypeEnum: string
      */
     function toCamelCase(): string
     {
-        return lcfirst(preg_replace_callback('/_([a-z0-9])/', function ($matches) {
-            return strtoupper($matches[1]);
-        }, $this->value));
+        $value = str_replace(['_', '-'], ' ', mb_strtolower($this->value));
+        $value = ucwords($value);
+        return str_replace(' ', '', $value);
     }
 }

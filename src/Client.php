@@ -70,7 +70,7 @@ class Client
                 return ['status' => $response->getStatusCode(), 'body' => $body];
             }
 
-            if (count($decoded) > 0) {
+            if (count($decoded) > 0 && $uri === 'updates') {
                 $decoded['save_data'] = $this->saveData;
                 $decoded['enqueue'] = $this->enqueue;
             }
