@@ -41,7 +41,7 @@ MAX_API_KEY="YOUR_MAX_API_KEY"
 
 ## Usage
 
-**Send a message**
+**Send message**
 
 ```php
 MAX::sendMessage(
@@ -51,6 +51,42 @@ MAX::sendMessage(
         // there will be more to come...
     ]
 );
+```
+
+**Send message with MessageBuilder**
+
+```php
+Max::builder()
+    ->chatId(1234567890)
+    ->text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")
+    ->attachments(function (AttachmentsBuilder $builder) {
+        $builder->image(
+            token: "TOKEN_IMAGE"
+        );
+        $builder->image(
+            token: "TOKEN_IMAGE"
+        );
+        $builder->video(
+            token: "TOKEN_VIDEO"
+        );
+        $builder->inlineKeyboard(
+            $builder->row(
+                $builder->button->link(
+                    text: "Lorem Ipsum 1",
+                    url: "https://max.ru",
+                ),
+                $builder->button->callback(
+                    text: "Lorem Ipsum 2",
+                    payload: "lorem-ipsum-2",
+                )
+            ),
+            $builder->button->callback(
+                text: "Lorem Ipsum 3",
+                payload: "lorem-ipsum-3",
+            )
+        );
+    })
+    ->send();
 ```
 
 ## Change log

@@ -5,15 +5,17 @@
 ## In development
 
 - [ ] Migrations
-    - [x] max_updates
-    - [x] max_users
+    - [ ] max_chats
+    - [ ] max_chat_users
+    - [ ] max_send
+    - [ ] max_schedule
+- [ ] Models
+    - [ ] MaxChat
+    - [ ] MaxSend
+    - [ ] MaxSchedule
 - [ ] Enums
     - [ ] Action
-    - [x] AttachmentType
-    - [x] ButtonType
     - [ ] ChatAdminPermission
-    - [x] ChatStatus
-    - [x] ChatType
     - [ ] InlineButtonType
     - [ ] Intent
     - [ ] MarkupType
@@ -21,37 +23,47 @@
     - [ ] MessageLinkType
     - [ ] ReplyButtonType
     - [ ] SenderAction
-    - [x] UpdateProcessing
-    - [x] UpdateType
-    - [x] UploadType
-- [ ] Models
-    - [x] MaxUpdate
-    - [x] MaxUser
+- [ ] Objects
+    - [ ] Chat
+    - [ ] ChatMember
 - [ ] Methods
     - [ ] Max::me()
-    - [x] Max::sendMessage()
-    - [x] Max::editMessage()
-    - [x] Max::deleteMessage()
-    - [x] Max::Update()
+    - [ ] Max::update()
         - [ ] link
-    - [ ] Max::builder()
-        - [x] send
-        - [x] edit
-        - [x] delete
-        - [x] text
-        - [ ] image
-        - [ ] video
-        - [ ] audio
-        - [ ] file
-        - [ ] sticker
-        - [ ] contact
-        - [ ] inline_keyboard
-        - [ ] reply_keyboard
-        - [ ] location
-        - [ ] share
-- [ ] Other
-    - [x] Api
-    - [x] Client
+        - [ ] enqueue
+    - [ ] Max::upload()
+    - [ ] Max::videoInfo()
+    - [ ] Max::messageInfo()
+    - [ ] Webhook
+        - [ ] Max::subscriptions()
+        - [ ] Max::subscriptionSet()
+        - [ ] Max::subscriptionDelete()
+    - [ ] Chats
+        - [ ] Max::chatInfo(chatLink|chatId)
+        - [ ] Max::chatEdit()
+        - [ ] Max::chatAction()
+        - [ ] Max::chatPins()
+        - [ ] Max::chatPin()
+        - [ ] Max::chatPinDelete()
+        - [ ] Max::chatMeInfo()
+        - [ ] Max::chatMeDelete()
+        - [ ] Max::chatAdmins()
+        - [ ] Max::chatSetAdmin()
+        - [ ] Max::chatRevokeAdmin()
+        - [ ] Max::chatMembers()
+        - [ ] Max::chatBulkMembers()
+        - [ ] Max::chatDeleteMember()
+        - [ ] Max::chat()
+        - [ ] Max::chat()
+- [ ] Route Webhook
+- [ ] Service handle update
+- [ ] Queue
+- [ ] Commands
+    - [ ] max:update
+    - [ ] max:handle
+    - [ ] max:send
+    - [ ] max:schedule
+- [ ] Supervisor
 
 ## Documentation
 
