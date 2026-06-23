@@ -4,6 +4,7 @@ namespace VioletSun\MAX\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -55,5 +56,10 @@ class MaxUser extends Model
             'private' => 'boolean',
             'last_active' => 'datetime'
         ];
+    }
+
+    public function maxChats(): BelongsToMany
+    {
+        return $this->belongsToMany(MaxChat::class, 'max_chat_users', 'user_id', 'chat_id')->withTimestamps();
     }
 }

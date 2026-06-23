@@ -3,14 +3,12 @@
 ...list of what will be developed
 
 ## In development
-
+- [ ] Config
+  - [ ] webhook
 - [ ] Migrations
-    - [ ] max_chats
-    - [ ] max_chat_users
     - [ ] max_send
     - [ ] max_schedule
 - [ ] Models
-    - [ ] MaxChat
     - [ ] MaxSend
     - [ ] MaxSchedule
 - [ ] Enums
@@ -33,6 +31,9 @@
           - [ ] url
 - [ ] Methods
     - [ ] Max::update()
+        - [ ] save_data
+          - [ ] MaxChat
+          - [ ] max_chat_users
         - [ ] link
         - [ ] enqueue
     - [ ] Max::upload()
@@ -59,7 +60,8 @@
         - [ ] Max::chatDeleteMember()
         - [ ] Max::chat()
         - [ ] Max::chat()
-- [ ] Route Webhook
+- [ ] Route Webhook with settings path, update_types and secret
+- [ ] UnitTest
 - [ ] Service handle update
 - [ ] Queue
 - [ ] Commands
