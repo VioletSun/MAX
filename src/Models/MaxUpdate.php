@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use VioletSun\MAX\Enums\UpdateProcessingEnum;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
 use VioletSun\MAX\Objects\Update;
+use VioletSun\MAX\Traits\ChatSendMessage;
 
 /**
  * @property UpdateTypeEnum $type
@@ -17,6 +18,7 @@ use VioletSun\MAX\Objects\Update;
  */
 class MaxUpdate extends Model
 {
+    use ChatSendMessage;
     /**
      * The attributes that are mass assignable.
      *

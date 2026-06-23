@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use VioletSun\MAX\Enums\ChatStatusEnum;
 use VioletSun\MAX\Enums\ChatTypeEnum;
+use VioletSun\MAX\Traits\ChatSendMessage;
 
 /**
  * @property int $id
@@ -29,7 +30,7 @@ use VioletSun\MAX\Enums\ChatTypeEnum;
  */
 class MaxChat extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ChatSendMessage;
 
     /**
      * The attributes that are mass assignable.
