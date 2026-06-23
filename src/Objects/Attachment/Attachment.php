@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace VioletSun\MAX\Objects\Attachment;
 
 use VioletSun\MAX\Enums\AttachmentTypeEnum;
+use VioletSun\MAX\Objects\Attachment\Objects\Share;
 use VioletSun\MAX\Support\BaseObject;
 
 final class Attachment extends BaseObject
 {
-    public static function fromArray(array $data): static
+    public static function fromArrayData(array $data): BaseObject
     {
         $type = isset($data['type']) ? AttachmentTypeEnum::tryFrom($data['type']) : null;
         if (!empty($type)) {
@@ -31,16 +32,16 @@ final class Attachment extends BaseObject
         if ($type !== null) {
             return self::makeObject('Objects', $type->toCamelCase(), $data);
         }
-        return new self($data);
+        return new Attachment($data);
     }
 
-    private static function makeObject($folder, $className, $data): Attachment|BaseObject
+    protected static function makeObject($folder, $className, $data): Attachment|BaseObject|Share
     {
         $class = 'VioletSun\\MAX\\Objects\\Attachment\\' . $folder . '\\' . $className;
         if (class_exists($class) && method_exists($class, 'fromArray')) {
-            /** @var class-string<BaseObject> $class */
+            /** @var class-string<Attachment> $class */
             return $class::fromArray($data);
         }
-        return new self($data);
+        return new Attachment($data);
     }
 }

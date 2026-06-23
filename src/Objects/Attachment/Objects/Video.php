@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Objects\Attachment\Objects;
 
+use VioletSun\MAX\Objects\Attachment\Thumbnails\VideoThumbnail;
 use VioletSun\MAX\Support\BaseObject;
 
 /**
  * @property int $duration
+ * @property VideoThumbnail|null $thumbnail
  */
 final class Video extends BaseObject
 {
@@ -15,6 +17,7 @@ final class Video extends BaseObject
     {
         return new self([
             'duration' => $data['duration'] ?? null,
+            'thumbnail' => $data['thumbnail'] ?? null,
         ]);
     }
 }

@@ -7,8 +7,8 @@ namespace VioletSun\MAX\Objects\Attachment\Payloads;
 use VioletSun\MAX\Support\BaseObject;
 
 /**
- * @property string $url
- * @property string $token
+ * @property string|null $url
+ * @property string|null $token
  */
 final class SharePayload extends BaseObject
 {

@@ -4,6 +4,7 @@ namespace VioletSun\MAX\Methods;
 
 use VioletSun\MAX\Client;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
+use VioletSun\MAX\Objects\Me;
 use VioletSun\MAX\Objects\Updates;
 
 /**
@@ -19,9 +20,9 @@ trait Get
      *
      * @link https://dev.max.ru/docs-api/methods/GET/me
      */
-    public function me(): array
+    public function me(): Me
     {
-        return $this->client->get("me");
+        return Me::fromArray($this->client->get("me"));
     }
 
     /**

@@ -26,8 +26,12 @@
 - [ ] Objects
     - [ ] Chat
     - [ ] ChatMember
+    - [ ] Update
+        - [ ] message
+          - [ ] link
+          - [ ] stat
+          - [ ] url
 - [ ] Methods
-    - [ ] Max::me()
     - [ ] Max::update()
         - [ ] link
         - [ ] enqueue

@@ -13,7 +13,7 @@ final class Body extends BaseObject
     {
         $attachments = [];
         foreach ($data['attachments'] ?? [] as $attachment) {
-            $attachments[] = Attachment::fromArray($attachment);
+            $attachments[] = Attachment::fromArrayData($attachment);
         }
         $markups = [];
         foreach (($data['markup'] ?? []) as $m) {

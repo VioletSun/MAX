@@ -30,7 +30,7 @@ final class User extends BaseObject
             'last_activity_time' => isset($data['last_activity_time']) ? now()->createFromTimestampMs($data['last_activity_time']) : null,
             'avatar_url' => $data['avatar_url'] ?? null,
             'full_avatar_url' => $data['full_avatar_url'] ?? null,
-            'username' => $data['username'] ?? $data['name'] ?? null,
+            'username' => $data['username'] ?? null,
             'name' => $data['name'] ?? null,
         ]);
     }
