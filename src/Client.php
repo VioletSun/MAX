@@ -13,7 +13,7 @@ class Client
     protected bool $enqueue;
 
     public function __construct(
-        ?string $baseUri = 'https://platform-api.max.ru',
+        ?string $baseUri = 'https://platform-api2.max.ru',
         ?string $apiKey = null,
         ?int $timeout = 10,
         ?bool $saveData = false,

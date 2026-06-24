@@ -3,9 +3,9 @@
 return [
     /*-------------------------------------------------------------------------|
     | Base API Url [Optional]                                                  |
-    | Default: https://platform-api.max.ru                                     |
+    | Default: https://platform-api2.max.ru                                     |
     |-------------------------------------------------------------------------*/
-    'base_uri' => env('MAX_BASE_URI', 'https://platform-api.max.ru'),
+    'base_uri' => env('MAX_BASE_URI', 'https://platform-api2.max.ru'),
 
     /*-------------------------------------------------------------------------|
     | Your MAX API key                                                         |
