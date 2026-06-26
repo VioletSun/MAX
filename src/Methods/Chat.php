@@ -20,7 +20,7 @@ trait Chat
      *
      * @link https://dev.max.ru/docs-api/methods/GET/chats/-chatId-
      */
-    public function getChat(int|string $chat_id): ObjectChat
+    public function chatInfo(int|string $chat_id): ObjectChat
     {
         return ObjectChat::fromArray($this->client->get("/chats/{$chat_id}"));
     }
