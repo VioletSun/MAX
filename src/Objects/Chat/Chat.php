@@ -27,7 +27,7 @@ final class Chat extends BaseObject
             'type' => !empty($data['type']) ? ChatTypeEnum::tryFrom($data['type']) : null,
             'status' => !empty($data['status']) ? ChatStatusEnum::tryFrom($data['status']) :null,
             'title' => $data['title'] ?? null,
-            'last_event_time' => !empty($data['last_event_time']) ? Carbon::createFromTimestamp($data['last_event_time']) : null,
+            'last_event_time' => !empty($data['last_event_time']) ? Carbon::createFromTimestampMs($data['last_event_time']) : null,
             'participants_count' => $data['participants_count'] ?? null,
             'is_public' => $data['is_public'] ?? null,
             'link' => $data['link'] ?? null,

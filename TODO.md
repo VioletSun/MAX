@@ -73,3 +73,6 @@
 
 - [ ] I have to get started...
 
+Support MAX
+- Long Polling (GET /updates) не планируется как основной способ работы и не является заменой webhook.
+- Он оставляется только для разработки и тестирования, а для production используется webhook через /subscriptions.

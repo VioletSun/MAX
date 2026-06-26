@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VioletSun\MAX\Objects;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
+use VioletSun\MAX\Enums\ChatStatusEnum;
 use VioletSun\MAX\Enums\ChatTypeEnum;
 use VioletSun\MAX\Enums\UpdateProcessingEnum;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
@@ -19,7 +19,6 @@ use VioletSun\MAX\Objects\Message\Message;
 use VioletSun\MAX\Support\BaseObject;
 
 /**
- * TODO: сделать isChannel, isDialog
  * @property UpdateTypeEnum $update_type
  * @property Message|null $message
  * @property bool|null $is_channel
@@ -106,59 +105,62 @@ final class Update extends BaseObject
     {
         $chatId = $this->getChatId();
         $chatUserId = $this->getUserChatId();
-        $userData = $this->getUserData();
+        $userData = $this->userDataHandleToDB();
         $userId = $userData['user_id'] ?? null;
         $type = $this->update_type;
 
-        DB::transaction(function () use ($chatId, $chatUserId, $userId, $userData, $type, $enqueue) {
-            // MaxUser
-            $max_user = null;
-            if (!empty($userData) && !empty($chatUserId) && !empty($userId)) {
-                $datum = [];
-                foreach ($userData as $key => $val) {
-                    if (is_null($val)) continue;
-                    if ($key == 'private' && $val === false) continue;
-                    $datum[$key] = $val;
-                }
-                $max_user = MaxUser::query()->updateOrCreate(
-                    ['chat_id' => $chatUserId, 'user_id' => $userId],
-                    Arr::only($datum, [
-                        'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'private', 'last_active'
-                    ])
-                );
-            }
+        // MaxUser
+        $max_user = null;
+        if (!empty($userData) && !empty($chatUserId) && !empty($userId)) {
+            $max_user = MaxUser::query()->updateOrCreate(
+                ['chat_id' => $chatUserId, 'user_id' => $userId],
+                Arr::only($userData, [
+                    'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'last_active'
+                ])
+            );
+        } elseif (!empty($userData) && empty($chatUserId) && !empty($userId)) {
+            $max_user = MaxUser::query()->updateOrCreate(
+                ['user_id' => $userId],
+                Arr::only($userData, [
+                    'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'last_active'
+                ])
+            );
+        }
+        if ($type === UpdateTypeEnum::BotStarted && $max_user) {
+            $max_user->update(['private' => true]);
+        } elseif ($type === UpdateTypeEnum::BotStopped && $max_user) {
+            $max_user->update(['private' => false]);
+        }
 
+        // MaxChat
+        $max_chat = null;
+        if ($chatId < 0 && $type == UpdateTypeEnum::BotAdded) {
+            $responseChat = MAX::getChat($chatId);
+            $max_chat = MaxChat::query()->updateOrCreate(
+                ['chat_id' => $responseChat->chat_id],
+                $responseChat->only([
+                    'type','status','title','last_event_time','participants_count','is_public','link','messages_count',
+                ])->toArray()
+            );
+        } elseif ($chatId < 0 && $type == UpdateTypeEnum::BotRemoved) {
+            MaxChat::query()->where('chat_id', $chatId)->update(['status' => ChatStatusEnum::Removed]);
+        } elseif ($chatId < 0) {
+            $max_chat = MaxChat::query()->where('chat_id', $chatId)->first();
+        }
+        if ($type == UpdateTypeEnum::UserAdded && $max_chat && $max_user && $max_chat->maxUsers()->where('user_id', $chatUserId)->doesntExist()) {
+            $max_chat->maxUsers()->attach($max_user);
+        } elseif ($type == UpdateTypeEnum::UserRemoved && $max_chat && $max_user) {
+            $max_chat->maxUsers()->detach($max_user);
+        }
 
-            $max_chat = null;
-            if ($chatId < 0 && $type == UpdateTypeEnum::BotAdded) {
-                $responseChat = MAX::getChat($chatId);
-                $max_chat = MaxChat::query()->updateOrCreate(
-                    ['chat_id' => $responseChat->chat_id],
-                    Arr::only($datum, [
-                        'type','status','title','last_event_time','participants_count','is_public','link','messages_count',
-                    ])
-                );
-                if (!is_null($max_chat)) {
-                    $max_chat->maxUsers()->attach($max_user);
-                }
-            }
-
-            // MaxChat
-            // if "update_type": "bot_added"
-            // узнаем всё про то, куда нас добавили
-            // создаём запись в бд
-
-            // MaxChat & MaxUser => MaxUser to MaxChat
-
-            // MaxUpdate
-            MaxUpdate::query()->create([
-                'type'       => $type,
-                'chat_id'    => $chatId,
-                'user_id'    => $userId,
-                'data'       => $this->toArray(),
-                'processing' => $enqueue ? UpdateProcessingEnum::InProgress : UpdateProcessingEnum::Backlog, // или ваш дефолт
-            ]);
-        });
+        // MaxUpdate
+        MaxUpdate::query()->create([
+            'type'       => $type,
+            'chat_id'    => $chatId,
+            'user_id'    => $userId,
+            'data'       => $this->toArray(),
+            'processing' => $enqueue ? UpdateProcessingEnum::InProgress : UpdateProcessingEnum::Backlog
+        ]);
     }
 
     public function enqueue(): void
@@ -186,6 +188,10 @@ final class Update extends BaseObject
 
     public function getUserData(): ?array
     {
+        if ($this->user instanceof User) {
+            return $this->user->toArray();
+        }
+
         if (!$this->isDialog()) {
             return null;
         }
@@ -223,6 +229,19 @@ final class Update extends BaseObject
             'last_active' => $user->last_activity_time,
             'private'     => $this->isDialog(),
         ];
+    }
+
+    public function userDataHandleToDB(): ?array
+    {
+        $datum = [];
+        if ($userData = $this->getUserData()) {
+            foreach ($userData as $key => $val) {
+                if (is_null($val)) continue;
+                if ($key == 'private' && $val === false) continue;
+                $datum[$key] = $val;
+            }
+        }
+        return $datum;
     }
 
     public function isDialog(): bool
