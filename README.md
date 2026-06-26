@@ -14,6 +14,11 @@
 
 ## Installation
 
+Installing root certificates for working with the MAX API2
+- Download root certificates https://www.gosuslugi.ru/crt
+- Install certificates ```sudo cp CERTIFICATE_NAME.crt /usr/local/share/ca-certificates/```
+- Update the certificate store ```sudo update-ca-certificates```
+
 Via Composer
 ```bash
 composer require violetsun/max

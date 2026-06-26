@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use VioletSun\MAX\Enums\ChatTypeEnum;
 use VioletSun\MAX\Enums\UpdateProcessingEnum;
 use VioletSun\MAX\Enums\UpdateTypeEnum;
+use VioletSun\MAX\Facades\MAX;
+use VioletSun\MAX\Models\MaxChat;
 use VioletSun\MAX\Models\MaxUpdate;
 use VioletSun\MAX\Models\MaxUser;
 use VioletSun\MAX\Objects\Callback\Callback;
@@ -102,28 +104,53 @@ final class Update extends BaseObject
 
     public function saveData(?bool $enqueue = false): void
     {
-
         $chatId = $this->getChatId();
+        $chatUserId = $this->getUserChatId();
         $userData = $this->getUserData();
         $userId = $userData['user_id'] ?? null;
         $type = $this->update_type;
 
-        DB::transaction(function () use ($chatId, $userId, $userData, $type, $enqueue) {
-            if (!empty($userData) && !empty($chatId) && !empty($userId)) {
+        DB::transaction(function () use ($chatId, $chatUserId, $userId, $userData, $type, $enqueue) {
+            // MaxUser
+            $max_user = null;
+            if (!empty($userData) && !empty($chatUserId) && !empty($userId)) {
                 $datum = [];
                 foreach ($userData as $key => $val) {
                     if (is_null($val)) continue;
                     if ($key == 'private' && $val === false) continue;
                     $datum[$key] = $val;
                 }
-                MaxUser::query()->updateOrCreate(
-                    ['chat_id' => $chatId, 'user_id' => $userId],
+                $max_user = MaxUser::query()->updateOrCreate(
+                    ['chat_id' => $chatUserId, 'user_id' => $userId],
                     Arr::only($datum, [
                         'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'private', 'last_active'
                     ])
                 );
             }
 
+
+            $max_chat = null;
+            if ($chatId < 0 && $type == UpdateTypeEnum::BotAdded) {
+                $responseChat = MAX::getChat($chatId);
+                $max_chat = MaxChat::query()->updateOrCreate(
+                    ['chat_id' => $responseChat->chat_id],
+                    Arr::only($datum, [
+                        'type','status','title','last_event_time','participants_count','is_public','link','messages_count',
+                    ])
+                );
+                if (!is_null($max_chat)) {
+                    $max_chat->maxUsers()->attach($max_user);
+                }
+            }
+
+            // MaxChat
+            // if "update_type": "bot_added"
+            // узнаем всё про то, куда нас добавили
+            // создаём запись в бд
+
+            // MaxChat & MaxUser => MaxUser to MaxChat
+
+            // MaxUpdate
             MaxUpdate::query()->create([
                 'type'       => $type,
                 'chat_id'    => $chatId,

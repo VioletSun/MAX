@@ -2,12 +2,14 @@
 
 namespace VioletSun\MAX\Builder;
 
+use VioletSun\MAX\Enums\InlineButtonTypeEnum;
+
 class ButtonBuilder
 {
     public function callback(string $text, string $payload): array
     {
         return [
-            'type' => 'callback',
+            'type' => InlineButtonTypeEnum::Callback,
             'text' => $text,
             'payload' => $payload
         ];
@@ -16,7 +18,7 @@ class ButtonBuilder
     public function link(string $text, string $url): array
     {
         return [
-            'type' => 'link',
+            'type' => InlineButtonTypeEnum::Link,
             'text' => $text,
             'url' => $url
         ];
@@ -25,7 +27,7 @@ class ButtonBuilder
     public function requestGeoLocation(string $text, ?bool $quick = true): array
     {
         return [
-            'type' => 'request_geo_location',
+            'type' => InlineButtonTypeEnum::RequestGeoLocation,
             'text' => $text,
             'quick' => $quick
         ];
@@ -34,7 +36,7 @@ class ButtonBuilder
     public function requestContact(string $text): array
     {
         return [
-            'type' => 'request_contact',
+            'type' => InlineButtonTypeEnum::RequestContact,
             'text' => $text
         ];
     }
@@ -42,7 +44,7 @@ class ButtonBuilder
     public function openApp(string $text, ?string $web_app = null, ?int $contact_id = null, ?string $payload = null): array
     {
         $data = [
-            'type' => 'open_app',
+            'type' => InlineButtonTypeEnum::OpenApp,
             'text' => $text
         ];
         foreach (compact('web_app', 'contact_id', 'payload') as $key => $value) {
@@ -56,7 +58,7 @@ class ButtonBuilder
     public function message(string $text): array
     {
         return [
-            'type' => 'message',
+            'type' => InlineButtonTypeEnum::Message,
             'text' => $text
         ];
     }
@@ -64,7 +66,7 @@ class ButtonBuilder
     public function clipboard(string $text, string $payload): array
     {
         return [
-            'type' => 'clipboard',
+            'type' => InlineButtonTypeEnum::Clipboard,
             'text' => $text,
             'payload' => $payload
         ];
