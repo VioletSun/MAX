@@ -4,7 +4,6 @@ namespace VioletSun\MAX\Objects\Chat;
 
 use Carbon\Carbon;
 use VioletSun\MAX\Enums\ChatAdminPermissionEnum;
-use VioletSun\MAX\Objects\AbstractObject;
 use VioletSun\MAX\Support\BaseObject;
 
 /**

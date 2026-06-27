@@ -4,6 +4,7 @@ namespace VioletSun\MAX\Methods;
 
 use VioletSun\MAX\Client;
 use VioletSun\MAX\Enums\ChatActionEnum;
+use VioletSun\MAX\Enums\ChatAdminPermissionEnum;
 use VioletSun\MAX\Objects\AbstractObject;
 use VioletSun\MAX\Objects\Chat\ChatIcon;
 use VioletSun\MAX\Objects\Chat\Chat as ObjectChat;
@@ -156,10 +157,113 @@ trait Chat
             return $request;
         }
 
-        $rows = [];
+        $members = [];
         foreach ($request->members as $member) {
-            $rows[] = Member::fromArray($member);
+            $members[] = Member::fromArray($member);
         }
-        return AbstractObject::fromArray($rows);
+        return AbstractObject::fromArray([
+            'marker' => $response->members ?? null,
+            'members' => $members
+        ]);
+    }
+
+    /**
+     * Assign an administrator to a group chat or channel
+     *
+     * @param int|string $chat_id
+     * @param array $admins
+     * @param int|null $marker
+     * @return AbstractObject
+     *
+     * <code>
+     * $admins = [
+     *  [
+     *      "user_id" => "{user_id}",
+     *      "permissions" => [
+     *          ChatAdminPermissionEnum::Permission,
+     *          ChatAdminPermissionEnum::Permission
+     *      ],
+     *      "alias" => "",
+     *  ]
+     * ]
+     * </code>
+     * @link https://dev.max.ru/docs-api/methods/POST/chats/-chatId-/members/admins
+     */
+    public function chatSetAdmin(int|string $chat_id, array $admins, ?int $marker = null): AbstractObject
+    {
+        return AbstractObject::fromArray($this->client->post("/chats/{$chat_id}/members/admins"));
+    }
+
+    /**
+     * Revoke admin rights in a group chat or channel
+     *
+     * @param int|string $chat_id
+     * @param int|string $user_id
+     * @return AbstractObject
+     *
+     * @link https://dev.max.ru/docs-api/methods/DELETE/chats/-chatId-/members/admins/-userId-
+     */
+    public function chatRevokeAdmin(int|string $chat_id, int|string $user_id): AbstractObject
+    {
+        return AbstractObject::fromArray($this->client->delete("/chats/{$chat_id}/members/admins/{$user_id}"));
+    }
+
+    /**
+     * Getting members of a group chat or channel
+     *
+     * @param int|string $chat_id
+     * @param array|null $user_ids
+     * @param int|null $marker
+     * @param int|null $count
+     * @return AbstractObject
+     *
+     * @link https://dev.max.ru/docs-api/methods/GET/chats/-chatId-/members
+     */
+    public function chatMembers(int|string $chat_id, ?array $user_ids = [], ?int $marker = null, ?int $count = 20): AbstractObject
+    {
+        $data = [];
+        if (!empty($user_ids)) {
+            $data['user_ids'] = $user_ids;
+        }
+        if (!empty($marker)) {
+            $data['marker'] = $marker;
+        }
+        if (!empty($count)) {
+            $data['count'] = $count;
+        }
+        $response = AbstractObject::fromArray($this->client->get("/chats/{$chat_id}/members", $data));
+        $members = [];
+        foreach ($response->members ?? [] as $member) {
+            $members[] = Member::fromArray($member);
+        }
+        return AbstractObject::fromArray([
+            'marker' => $response->members ?? null,
+            'members' => $members
+        ]);
+    }
+
+    /**
+     * Adding members to a group chat or channel
+     *
+     * @param int|string $chat_id
+     * @param array $user_ids
+     * @return AbstractObject
+     *
+     * @link https://dev.max.ru/docs-api/methods/POST/chats/-chatId-/members
+     */
+    public function chatBulkMembers(int|string $chat_id, array $user_ids): AbstractObject
+    {
+        return AbstractObject::fromArray($this->client->post("/chats/{$chat_id}/members", ['user_ids' => $user_ids]));
+    }
+
+    /**
+     * Removing a member from a group chat or channel
+     *
+     * @link https://dev.max.ru/docs-api/methods/DELETE/chats/-chatId-/members
+     */
+    public function chatDeleteMember(int|string $chat_id, int|string $user_id, ?bool $block = true): AbstractObject
+    {
+        $query_block = $block ? '&block=true' : '';
+        return AbstractObject::fromArray($this->client->delete("/chats/{$chat_id}/members?user_id={$user_id}{$query_block}"));
     }
 }
