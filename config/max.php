@@ -31,4 +31,11 @@ return [
     | Need: Package vendor publish and migrations                              |
     |-------------------------------------------------------------------------*/
     'enqueue' => env('MAX_ENQUEUE', false),
+
+    /*-------------------------------------------------------------------------|
+    | Webhook update types                                                     |
+    | Default: null - all                                                      |
+    | Example: bot_started,message_created                                     |
+    |-------------------------------------------------------------------------*/
+    'webhook_update_types' => env('MAX_WEBHOOK_UPDATE_TYPES'),
 ];

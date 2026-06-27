@@ -4,19 +4,16 @@
 
 ## In development
 - [ ] Config
-  - [ ] webhook
+  - [ ] webhooks
 - [ ] Migrations
     - [ ] max_send_schedule
 - [ ] Models
     - [ ] MaxSendSchedule
 - [ ] Enums
-    - [ ] Action
-    - [ ] ChatAdminPermission
     - [ ] MarkupType
     - [ ] MessageLinkType
     - [ ] ReplyButtonType
 - [ ] Objects
-    - [ ] ChatMember
     - [ ] Update
         - [ ] message
           - [ ] link
@@ -33,20 +30,6 @@
         - [ ] Max::subscriptions()
         - [ ] Max::subscriptionSet()
         - [ ] Max::subscriptionDelete()
-    - [ ] Chats
-        - [ ] Max::chatEdit()
-        - [ ] Max::chatAction()
-        - [ ] Max::chatPins()
-        - [ ] Max::chatPin()
-        - [ ] Max::chatPinDelete()
-        - [ ] Max::chatMeInfo()
-        - [ ] Max::chatMeDelete()
-        - [ ] Max::chatAdmins()
-        - [ ] Max::chatSetAdmin()
-        - [ ] Max::chatRevokeAdmin()
-        - [ ] Max::chatMembers()
-        - [ ] Max::chatBulkMembers()
-        - [ ] Max::chatDeleteMember()
 - [ ] Route mini app
 - [ ] Route mini app for menu
 - [ ] Route mini app menu action
@@ -55,8 +38,8 @@
 - [ ] Service handle update
 - [ ] Queue
 - [ ] Commands
+    - [ ] max:webhook:init
     - [ ] max:update
-    - [ ] max:handle
     - [ ] max:send:schedule
 - [ ] Supervisor
 
