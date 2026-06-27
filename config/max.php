@@ -32,10 +32,19 @@ return [
     |-------------------------------------------------------------------------*/
     'enqueue' => env('MAX_ENQUEUE', false),
 
-    /*-------------------------------------------------------------------------|
-    | Webhook update types                                                     |
-    | Default: null - all                                                      |
-    | Example: bot_started,message_created                                     |
-    |-------------------------------------------------------------------------*/
-    'webhook_update_types' => env('MAX_WEBHOOK_UPDATE_TYPES'),
+    'webhook' => [
+        /*-------------------------------------------------------------------------|
+        | Webhook update types                                                     |
+        | Default: null - all                                                      |
+        | Example: bot_started,message_created                                     |
+        |-------------------------------------------------------------------------*/
+        'update_types' => env('MAX_WEBHOOK_UPDATE_TYPES'),
+
+        /*-------------------------------------------------------------------------|
+        | Webhook secret                                                           |
+        | Default: null                                                            |
+        |-------------------------------------------------------------------------*/
+        'secret' => env('MAX_WEBHOOK_SECRET'),
+    ],
+
 ];
