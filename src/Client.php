@@ -54,6 +54,14 @@ class Client
         ]);
     }
 
+    public function patch(string $uri, array $data = [], array $query = []): array
+    {
+        return $this->request('PATCH', $uri, [
+            'json' => $data,
+            'query' => $query,
+        ]);
+    }
+
     public function delete(string $uri, array $query = []): array
     {
         return $this->request('DELETE', $uri, ['query' => $query]);
