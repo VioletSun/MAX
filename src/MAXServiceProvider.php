@@ -33,11 +33,6 @@ class MAXServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/max.php', 'max');
 
-        // Register the service the package provides.
-//        $this->app->singleton('max', function ($app) {
-//            return new MAX;
-//        });
-
         // Client
         $this->app->singleton(Client::class, function ($app) {
             $config = $app['config']->get('max', []);

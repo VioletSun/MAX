@@ -2,6 +2,11 @@
 
 namespace VioletSun\MAX\Builder;
 
+use VioletSun\MAX\Enums\AttachmentTypeEnum;
+use VioletSun\MAX\Enums\UploadTypeEnum;
+use VioletSun\MAX\Exceptions\MessageException;
+use VioletSun\MAX\Facades\MAX;
+
 class AttachmentsBuilder
 {
     private array $attachments = [];
@@ -12,22 +17,46 @@ class AttachmentsBuilder
         $this->button = new ButtonBuilder();
     }
 
-    public function image(?string $token = null, ?string $url = null): self
+    /**
+     * @param string|null $token
+     * @param array|null $photos
+     * @param string|null $url
+     * @param string|null $store - in development
+     * @return $this
+     * @throws MessageException
+     */
+    public function image(?string $token = null, ?array $photos = [], ?string $url = null, ?string $store = null): self
     {
-        $payload = $token ?? $url ?? null;
+        if (!empty($store)) {
+            $response = MAX::uploads(UploadTypeEnum::Image, $store);
+            $token = $response->token;
+        }
+        $payload = null;
+        if (!empty($token)) {
+            $payload['token'] = $token;
+        } elseif (!empty($photos)) {
+            $payload['photos'] = $photos;
+        } elseif (!empty($url)) {
+            $payload['url'] = $url;
+        }
         if (!is_null($payload)) {
             $this->attachments[] = [
-                'type' => 'image',
-                'payload' => [
-                    'token' => $token
-                ]
+                'type' => AttachmentTypeEnum::Image,
+                'payload' => $payload
             ];
         }
         return $this;
     }
 
-    public function video(string $token): self
+    /**
+     * @throws MessageException
+     */
+    public function video(string $token, ?string $store = null): self
     {
+        if (!empty($store)) {
+            $response = MAX::uploads(UploadTypeEnum::Video, $store);
+            $token = $response->token;
+        }
         $this->attachments[] = [
             'type' => 'video',
             'payload' => [
@@ -37,8 +66,15 @@ class AttachmentsBuilder
         return $this;
     }
 
-    public function audio(string $token): self
+    /**
+     * @throws MessageException
+     */
+    public function audio(string $token, ?string $store = null): self
     {
+        if (!empty($store)) {
+            $response = MAX::uploads(UploadTypeEnum::Audio, $store);
+            $token = $response->token;
+        }
         $this->attachments[] = [
             'type' => 'audio',
             'payload' => [
@@ -48,8 +84,15 @@ class AttachmentsBuilder
         return $this;
     }
 
-    public function file(string $token): self
+    /**
+     * @throws MessageException
+     */
+    public function file(string $token, ?string $store = null): self
     {
+        if (!empty($store)) {
+            $response = MAX::uploads(UploadTypeEnum::Image, $store);
+            $token = $response->token;
+        }
         $this->attachments[] = [
             'type' => 'file',
             'payload' => [

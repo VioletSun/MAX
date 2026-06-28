@@ -46,6 +46,14 @@ class Client
         ]);
     }
 
+    public function multipart(string $uri, array $query = [], array $multipart = []): array
+    {
+        return $this->request('POST', $uri, [
+            'query' => $query,
+            'multipart' => $multipart,
+        ]);
+    }
+
     public function put(string $uri, array $data = [], array $query = []): array
     {
         return $this->request('PUT', $uri, [
