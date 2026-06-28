@@ -22,7 +22,6 @@
     - [ ] Max::update()
         - [ ] link
         - [ ] enqueue
-    - [ ] Max::upload()
     - [ ] Max::videoInfo()
     - [ ] Max::messageInfo()
 - [ ] Route mini app
