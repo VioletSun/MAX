@@ -49,6 +49,9 @@ class AttachmentsBuilder
     }
 
     /**
+     * @param string $token
+     * @param string|null $store
+     * @return $this
      * @throws MessageException
      */
     public function video(string $token, ?string $store = null): self
@@ -67,6 +70,9 @@ class AttachmentsBuilder
     }
 
     /**
+     * @param string $token
+     * @param string|null $store
+     * @return $this
      * @throws MessageException
      */
     public function audio(string $token, ?string $store = null): self
@@ -85,6 +91,9 @@ class AttachmentsBuilder
     }
 
     /**
+     * @param string $token
+     * @param string|null $store
+     * @return $this
      * @throws MessageException
      */
     public function file(string $token, ?string $store = null): self
@@ -102,6 +111,10 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param string $code
+     * @return $this
+     */
     public function sticker(string $code): self
     {
         $this->attachments[] = [
@@ -113,6 +126,13 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param int|null $contact_id
+     * @param string|null $vcf_info
+     * @param string|null $vcf_phone
+     * @return $this
+     */
     public function contact(string $name, ?int $contact_id = null, ?string $vcf_info = null, ?string $vcf_phone = null): self
     {
         $payload['name'] = $name;
@@ -129,6 +149,11 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param float $latitude
+     * @param float $longitude
+     * @return $this
+     */
     public function location(float $latitude, float $longitude): self
     {
         $this->attachments[] = [
@@ -141,6 +166,11 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param string|null $url
+     * @param string|null $token
+     * @return $this
+     */
     public function share(?string $url = null, ?string $token = null): self
     {
         $payload = [];
@@ -157,6 +187,10 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param ...$buttons
+     * @return $this
+     */
     public function inlineKeyboard(...$buttons): self
     {
         $processedButtons = [];
@@ -181,6 +215,10 @@ class AttachmentsBuilder
         return $this;
     }
 
+    /**
+     * @param ...$buttons
+     * @return array
+     */
     public function row(...$buttons): array
     {
         return [
@@ -189,6 +227,9 @@ class AttachmentsBuilder
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getAttachments(): array
     {
         return $this->attachments;

@@ -5,6 +5,7 @@ namespace VioletSun\MAX\Builder;
 use VioletSun\MAX\Enums\MessageFormatEnum;
 use VioletSun\MAX\Exceptions\MessageException;
 use VioletSun\MAX\Facades\MAX;
+use VioletSun\MAX\Objects\AbstractObject;
 
 class MessageBuilder
 {
@@ -28,24 +29,39 @@ class MessageBuilder
         $this->attachments = $array["attachments"] ?? [];
     }
 
+    /**
+     * @param int $chat_id
+     * @return $this
+     */
     public function chatId(int $chat_id): MessageBuilder
     {
         $this->chat_id = $chat_id;
         return $this;
     }
 
+    /**
+     * @param string $message_id
+     * @return $this
+     */
     public function messageId(string $message_id): MessageBuilder
     {
         $this->message_id = $message_id;
         return $this;
     }
 
+    /**
+     * @param string $text
+     * @return $this
+     */
     public function text(string $text): MessageBuilder
     {
         $this->text = $text;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function disableLinkPreview(): MessageBuilder
     {
         $this->disable_link_preview = true;
@@ -87,6 +103,9 @@ class MessageBuilder
         return $this;
     }
 
+    /**
+     * @return array
+     */
     private function handleData(): array
     {
         $data = [
@@ -103,6 +122,9 @@ class MessageBuilder
         return $data;
     }
 
+    /**
+     * @return $this
+     */
     public function dump(): static
     {
         dump($this);
@@ -110,9 +132,10 @@ class MessageBuilder
     }
 
     /**
+     * @return AbstractObject
      * @throws MessageException
      */
-    public function send(): array
+    public function send(): AbstractObject
     {
         if (empty($this->chat_id)) {
             throw MessageException::required('chat_id');

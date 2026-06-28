@@ -68,9 +68,7 @@ Max::builder()
         $builder->image(
             token: "TOKEN_IMAGE"
         );
-        $builder->image(
-            token: "TOKEN_IMAGE"
-        );
+        $builder->image(store: public_path('image.png'));
         $builder->video(
             token: "TOKEN_VIDEO"
         );
