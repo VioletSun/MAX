@@ -93,7 +93,7 @@ class MAXServiceProvider extends ServiceProvider
     protected function registerRoutes(): void
     {
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/max.php');
         });
     }
 
