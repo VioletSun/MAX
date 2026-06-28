@@ -2,6 +2,7 @@
 
 namespace VioletSun\MAX;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class MAXServiceProvider extends ServiceProvider
@@ -13,10 +14,12 @@ class MAXServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'violetsun');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'violetsun');
+        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'max');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'max');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+
+//        $this->loadRoutesFrom(__DIR__.'/../routes/max.php');
+        $this->registerRoutes();
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
@@ -82,5 +85,26 @@ class MAXServiceProvider extends ServiceProvider
 
         // Registering package commands.
         // $this->commands([]);
+    }
+
+    /**
+     * Register the package routes with explicit configuration.
+     */
+    protected function registerRoutes(): void
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        });
+    }
+
+    /**
+     * Define the route group configuration.
+     */
+    protected function routeConfiguration(): array
+    {
+        return [
+            'prefix' => 'api',          // Optional: Adds a versioned path prefix
+            'middleware' => ['api'],       // Crucial: Applies stateless API middleware group
+        ];
     }
 }
