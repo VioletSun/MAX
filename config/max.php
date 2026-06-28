@@ -37,6 +37,13 @@ return [
     |-----------------------------------------------------------------------------*/
     'webhook' => [
         /*-------------------------------------------------------------------------|
+        | Webhook url                                                              |
+        | Default: route('api.max.webhook')                                        |
+        | Example: https://your-domain.com/api/max/webhook                         |
+        |-------------------------------------------------------------------------*/
+        'url' => env('MAX_WEBHOOK_URL'),
+
+        /*-------------------------------------------------------------------------|
         | Webhook update types                                                     |
         | Default: null - all                                                      |
         | Example: bot_started,message_created                                     |

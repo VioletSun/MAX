@@ -3,8 +3,6 @@
 ...list of what will be developed
 
 ## In development
-- [ ] Config
-  - [ ] webhooks
 - [ ] Migrations
     - [ ] max_send_schedule
 - [ ] Models
@@ -20,16 +18,18 @@
           - [ ] stat
           - [ ] url
 - [ ] Methods
+    - [ ] Max::builder()
+        - [ ] ->image(url|storage)
+        - [ ] ->video(url|storage)
+        - [ ] ->audio(url|storage)
+        - [ ] ->file(url|storage)
+    - [ ] Max::subscriptionInitSetting() add to url route('api.max.webhook')
     - [ ] Max::update()
         - [ ] link
         - [ ] enqueue
     - [ ] Max::upload()
     - [ ] Max::videoInfo()
     - [ ] Max::messageInfo()
-    - [ ] Webhook
-        - [ ] Max::subscriptions()
-        - [ ] Max::subscriptionSet()
-        - [ ] Max::subscriptionDelete()
 - [ ] Route mini app
 - [ ] Route mini app for menu
 - [ ] Route mini app menu action
