@@ -24,9 +24,6 @@
         - [ ] enqueue
     - [ ] Max::videoInfo()
     - [ ] Max::messageInfo()
-- [ ] Route mini app
-- [ ] Route mini app for menu
-- [ ] Route mini app menu action
 - [ ] Route Webhook with settings path, update_types and secret
 - [ ] UnitTest
 - [ ] Service handle update

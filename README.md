@@ -32,6 +32,7 @@ or
 ```bash
 php artisan vendor:publish --tag=max-config
 php artisan vendor:publish --tag=max-migrations
+php artisan vendor:publish --tag=max-assets
 ```
 
 Migrations (after vendor publish)

@@ -83,6 +83,10 @@ class MAXServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'max-migrations');
 
+        $this->publishes([
+            __DIR__.'/../public' => public_path('vendor/violetsun/max'),
+        ], 'max-assets');
+
         // Registering package commands.
         // $this->commands([]);
     }
