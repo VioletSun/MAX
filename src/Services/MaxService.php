@@ -2,12 +2,20 @@
 
 namespace VioletSun\MAX\Services;
 
+use Illuminate\Http\Request;
 use VioletSun\MAX\Objects\Update;
 
 class MaxService
 {
     private Update $update;
+
     public function __construct() {}
+
+    public function checkWebhook(Request $request): static
+    {
+        // dump($request);
+        return $this;
+    }
 
     public function setUpdate(Update $update): static
     {
@@ -17,6 +25,6 @@ class MaxService
 
     public function handle(): void
     {
-        dump($this->update);
+        // dump($this->update);
     }
 }
