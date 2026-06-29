@@ -7,8 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use VioletSun\MAX\Objects\Update;
-use VioletSun\MAX\Services\MaxAppService;
-use VioletSun\MAX\Services\MaxService;
+use App\Services\Max\MaxAppService;
+use App\Services\Max\MaxService;
 
 class MaxController extends Controller
 {

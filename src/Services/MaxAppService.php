@@ -1,6 +1,6 @@
 <?php
 
-namespace VioletSun\MAX\Services;
+namespace App\Services\Max;
 
 use Illuminate\Http\Request;
 use VioletSun\MAX\Objects\Update;
