@@ -24,4 +24,19 @@ final class Callback extends BaseObject
             'user' => isset($data['user']) ? User::fromArray($data['user']) : null,
         ]);
     }
+
+    /**
+     * @param int|null $key
+     * @param mixed|null $default
+     * @param string $separator
+     * @return mixed|string|array|null
+     */
+    public function payload(?int $key = null, mixed $default = null, string $separator = ':'): mixed
+    {
+        $array = explode($separator, $this->payload);
+        if ($key === null) {
+            return $array;
+        }
+        return $array[$key] ?? $default;
+    }
 }
