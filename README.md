@@ -33,6 +33,7 @@ or
 php artisan vendor:publish --tag=max-config
 php artisan vendor:publish --tag=max-migrations
 php artisan vendor:publish --tag=max-assets
+php artisan vendor:publish --tag=max-services
 ```
 
 Migrations (after vendor publish)
