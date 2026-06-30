@@ -2,6 +2,7 @@
 
 namespace App\Services\Max;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use VioletSun\MAX\Objects\Update;
@@ -12,11 +13,16 @@ class MaxAppService
 
     public function __construct() {}
 
-    public function checkApp(Request $request): static
+    public function setRequest(Request $request): static
     {
-        // check MAX server
-        // else Error
         $this->request = $request;
+        return $this;
+    }
+
+    public function checkApp(): static
+    {
+        // check MAX server secret
+        // else Error
         return $this;
     }
 
@@ -30,5 +36,12 @@ class MaxAppService
         return [
             'requestDada' => $this->request->all(),
         ];
+    }
+
+    public function action(): JsonResponse
+    {
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }

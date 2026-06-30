@@ -2,29 +2,32 @@
 
 namespace App\Services\Max;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use VioletSun\MAX\Objects\Update;
 
 class MaxService
 {
-    private Update $update;
+    private Request $request;
 
     public function __construct() {}
 
-    public function checkWebhook(Request $request): static
+    public function setRequest(Request $request): static
     {
-        // dump($request);
+        $this->request = $request;
         return $this;
     }
 
-    public function setUpdate(Update $update): static
+    public function checkWebhook(): static
     {
-        $this->update = $update;
+        // dump($this->request);
         return $this;
     }
 
-    public function handle(): void
+    public function handle(): JsonResponse
     {
-        // dump($this->update);
+        $update = Update::fromArray($this->request->all());
+        // dump($update);
+        return response()->json(['status' => true]);
     }
 }

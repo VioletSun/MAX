@@ -14,21 +14,24 @@ class MaxController extends Controller
 {
     public function webhook(Request $request, MaxService $maxService): JsonResponse
     {
-        $maxService
-            ->checkWebhook($request)
-            ->setUpdate(Update::fromArray($request->all()))
+        return $maxService
+            ->setRequest($request)
+            ->checkWebhook()
             ->handle();
-        return response()->json(['status' => true]);
     }
 
     public function index(Request $request, MaxAppService $maxAppService): View
     {
-        $maxAppService->checkApp($request);
-        return $maxAppService->view();
+        return $maxAppService
+            ->setRequest($request)
+            ->checkApp()
+            ->view();
     }
 
-    public function action(Request $request, MaxAppService $maxAppService)
+    public function action(Request $request, MaxAppService $maxAppService): JsonResponse
     {
-        //
+        return $maxAppService
+            ->setRequest($request)
+            ->action();
     }
 }
