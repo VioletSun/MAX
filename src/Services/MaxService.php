@@ -5,6 +5,7 @@ namespace App\Services\Max;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use VioletSun\MAX\Objects\Update;
+use VioletSun\MAX\Objects\Updates;
 
 class MaxService
 {
@@ -26,7 +27,7 @@ class MaxService
 
     public function handle(): JsonResponse
     {
-        $update = Update::fromArray($this->request->all());
+        Updates::fromArray($this->request->all());
         // dump($update);
         return response()->json(['status' => true]);
     }
