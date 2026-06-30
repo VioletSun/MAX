@@ -14,6 +14,7 @@
 - [ ] Objects
     - [ ] Update
         - [ ] message
+          - [ ] adding a user to a chat when they write there
           - [ ] link
           - [ ] stat
           - [ ] url

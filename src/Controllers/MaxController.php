@@ -23,7 +23,8 @@ class MaxController extends Controller
 
     public function index(Request $request, MaxAppService $maxAppService): View
     {
-        return view('max::index');
+        $maxAppService->checkApp($request);
+        return $maxAppService->view();
     }
 
     public function action(Request $request, MaxAppService $maxAppService)
