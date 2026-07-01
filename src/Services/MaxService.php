@@ -33,7 +33,7 @@ class MaxService
 
     public function handle(): JsonResponse
     {
-        Updates::fromArray($this->request->all());
+        Update::fromArray($this->request->all());
         // dump($update);
         return response()->json(['status' => true]);
     }

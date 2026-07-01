@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use VioletSun\MAX\Exceptions\WebhookException;
 use VioletSun\MAX\Objects\Update;
 use App\Services\Max\MaxAppService;
 use App\Services\Max\MaxService;
 
 class MaxController extends Controller
 {
+    /**
+     * @throws WebhookException
+     */
     public function webhook(Request $request, MaxService $maxService): JsonResponse
     {
         return $maxService
