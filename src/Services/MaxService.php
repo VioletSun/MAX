@@ -4,6 +4,7 @@ namespace App\Services\Max;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use VioletSun\MAX\Exceptions\WebhookException;
 use VioletSun\MAX\Objects\Update;
 use VioletSun\MAX\Objects\Updates;
 
@@ -19,9 +20,14 @@ class MaxService
         return $this;
     }
 
+    /**
+     * @throws WebhookException
+     */
     public function checkWebhook(): static
     {
-        // dump($this->request);
+        if (config('max.webhook.secret') !== $this->request->header('X-Max-Bot-Api-Secret')) {
+            throw WebhookException::required();
+        }
         return $this;
     }
 
