@@ -26,16 +26,11 @@ class MaxController extends Controller
 
     public function index(Request $request, MaxAppService $maxAppService): View
     {
-        return $maxAppService
-            ->setRequest($request)
-            ->checkApp()
-            ->view();
+        return $maxAppService->setRequest($request)->view();
     }
 
     public function action(Request $request, MaxAppService $maxAppService): JsonResponse
     {
-        return $maxAppService
-            ->setRequest($request)
-            ->action();
+        return $maxAppService->setRequest($request)->action();
     }
 }

@@ -14,9 +14,13 @@
     <link href="{{ asset('vendor/violetsun/max/css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <body>
-<div class="vh-100 d-flex justify-content-center align-items-center">
-    <h1 class="text-center">Hello <span id="name"></span></h1>
-</div>
+<main>
+    <div id="app">
+        <div class="vh-100 d-flex justify-content-center align-items-center">
+            <h1 class="text-center">Hello <span id="name"></span></h1>
+        </div>
+    </div>
+</main>
 </body>
 
 <!-- Obligatorily for MAX-->

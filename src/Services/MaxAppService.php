@@ -19,22 +19,16 @@ class MaxAppService
         return $this;
     }
 
-    public function checkApp(): static
-    {
-        // check MAX server secret
-        // else Error
-        return $this;
-    }
-
     public function view(): View
     {
         return view('max::index', $this->viewData());
     }
 
-    public function viewData(): array
+    public function viewData(?array $data = []): array
     {
         return [
             'requestDada' => $this->request->all(),
+            'data' => $data,
         ];
     }
 
