@@ -22,12 +22,12 @@ class MaxMiniApp {
         $.ajax({
             async: true,
             type: 'POST',
-            url: max_route_action,
+            url: this.max_route_action,
             data: {
                 action: action,
                 data: data,
-                init_data: window.WebApp.initDataUnsafe,
-                platform: window.WebApp.platform
+                init_data: this.webApp.initDataUnsafe,
+                platform: this.webApp.platform
             }
         }).done(function (resp) {
             if (resp.status) {
@@ -37,7 +37,7 @@ class MaxMiniApp {
     }
 
     test() {
-        alert(123);
+        this.action('main');
     }
 }
 

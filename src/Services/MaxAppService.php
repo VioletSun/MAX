@@ -5,7 +5,6 @@ namespace App\Services\Max;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use VioletSun\MAX\Objects\Update;
 
 class MaxAppService
 {
@@ -19,9 +18,9 @@ class MaxAppService
         return $this;
     }
 
-    public function view(): View
+    public function view(?string $view_path = 'max::index', ?array $data = []): View
     {
-        return view('max::index', $this->viewData());
+        return view($view_path, $this->viewData($data));
     }
 
     public function viewData(?array $data = []): array
@@ -36,6 +35,7 @@ class MaxAppService
     {
         return response()->json([
             'status' => true,
+            'body' => '',
         ]);
     }
 }

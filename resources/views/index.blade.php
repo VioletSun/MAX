@@ -12,6 +12,7 @@
 
     <!-- Style -->
     <link href="{{ asset('vendor/violetsun/max/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/violetsun/max/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 <main>
