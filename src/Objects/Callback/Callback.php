@@ -31,7 +31,7 @@ final class Callback extends BaseObject
      * @param string $separator
      * @return mixed|string|array|null
      */
-    public function payload(?int $key = null, mixed $default = null, string $separator = ':'): mixed
+    public function payload(?int $key = null, mixed $default = null, string $separator = '-'): mixed
     {
         $array = explode($separator, $this->payload);
         if ($key === null) {
