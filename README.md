@@ -1,16 +1,17 @@
 # MAX 
 
 [![API MAX](https://img.shields.io/badge/Official_API_doc-MAX-8f3fff?logo=message-square&style=flat-square)](https://dev.max.ru/docs)
+[![Project Status](https://img.shields.io/badge/Status-In%20development-orange.svg)](https://github.com/VioletSun/MAX/blob/main/TODO.md)
 
-[![Laravel](https://img.shields.io/badge/LaravelPackage-available-success?logo=laravel&style=flat-square)](https://github.com/VioletSun/MAX)
 [![Laravel versions](https://badge.laravel.cloud/badge/wendelladriel/laravel-expressive?style=flat)](https://github.com/VioletSun/MAX)
+[![Laravel](https://img.shields.io/badge/LaravelPackage-available-success?logo=laravel&style=flat-square)](https://github.com/VioletSun/MAX)
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![PHP version](https://img.shields.io/badge/php-8.2-3wefg3.svg?style=flat-square)](https://github.com/VioletSun/MAX)
 [![Total Downloads][ico-downloads]][link-downloads]
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VioletSun/MAX)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-[![Project Status](https://img.shields.io/badge/Status-In%20development-orange.svg)](https://github.com/VioletSun/MAX/blob/main/TODO.md)
+
 
 ## Installation
 

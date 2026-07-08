@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,interactive-widget=resizes-visual,viewport-fit=cover">
 
     <meta name="app-token" content="{{ max_make_app_token() }}">
 
     <!-- Obligatorily for MAX-->
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://trusted-platform.com;">
-    <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://web.max.ru">
+{{--    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://trusted-platform.com;">--}}
+{{--    <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://web.max.ru">--}}
 
     <title>{{ config('app.name', '') }}</title>
 
