@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta name="app-token" content="{{ max_make_app_token() }}">
+
     <!-- Obligatorily for MAX-->
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://trusted-platform.com;">
     <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://web.max.ru">
@@ -28,7 +30,7 @@
 <script src="https://st.max.ru/js/max-web-app.js"></script>
 
 <script src="{{ asset('vendor/violetsun/max/js/popper.min.js') }}"></script>
-<script src="{{ asset('vendor/violetsun/max/js/bootstrap.bundle.min.js') }}" ></script>
+<script src="{{ asset('vendor/violetsun/max/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/violetsun/max/js/jquery-3.7.0.min.js') }}"></script>
 
 <script src="{{ asset('vendor/violetsun/max/js/app.js') }}"></script>

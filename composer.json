@@ -45,7 +45,10 @@
     "autoload": {
         "psr-4": {
             "VioletSun\\MAX\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/AppHelpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

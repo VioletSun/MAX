@@ -31,10 +31,21 @@ class MaxAppService
         ];
     }
 
+    public function checkAppToken(): bool
+    {
+
+    }
+
     public function action(): JsonResponse
     {
+        if ($this->checkAppToken()) {
+            return response()->json([
+                'status' => true,
+                'body' => '',
+            ]);
+        }
         return response()->json([
-            'status' => true,
+            'status' => false,
             'body' => '',
         ]);
     }
