@@ -27,11 +27,11 @@
 </body>
 
 <!-- Obligatorily for MAX-->
-<script src="https://st.max.ru/js/max-web-app.js"></script>
+<script src="https://st.max.ru/js/max-web-app.js" defer="defer"></script>
 
 <script src="{{ asset('vendor/violetsun/max/js/popper.min.js') }}"></script>
 <script src="{{ asset('vendor/violetsun/max/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/violetsun/max/js/jquery-3.7.0.min.js') }}"></script>
 
-<script src="{{ asset('vendor/violetsun/max/js/app.js') }}"></script>
+<script type="module" crossorigin="" src="{{ asset('vendor/violetsun/max/js/app.js') }}"></script>
 </html>
