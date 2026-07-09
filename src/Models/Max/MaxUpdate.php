@@ -1,6 +1,6 @@
 <?php
 
-namespace VioletSun\MAX\Models;
+namespace App\Models\Max;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;

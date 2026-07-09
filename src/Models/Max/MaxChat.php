@@ -1,6 +1,6 @@
 <?php
 
-namespace VioletSun\MAX\Models;
+namespace App\Models\Max;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;

@@ -33,8 +33,8 @@ or
 ```bash
 php artisan vendor:publish --tag=max-config
 php artisan vendor:publish --tag=max-migrations
+php artisan vendor:publish --tag=max-models
 php artisan vendor:publish --tag=max-assets
-php artisan vendor:publish --tag=max-controllers
 php artisan vendor:publish --tag=max-services
 ```
 
