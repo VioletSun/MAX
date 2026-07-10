@@ -14,8 +14,12 @@ trait ChatSendMessage
         return null;
     }
 
-    public function buildMessage()
+    public function buildMessage($set_chat_id = true)
     {
-        return MAX::builder();
+        $max = MAX::builder();
+        if ($set_chat_id) {
+            $max->chatId($this->chat_id);
+        }
+        return $max;
     }
 }
