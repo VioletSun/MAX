@@ -186,7 +186,8 @@ final class Update extends BaseObject
 
     public function getUserId(): ?int
     {
-        return null;
+        $data = $this->getUserData();
+        return $data['user_id'] ?? null;
     }
 
     public function getUserData(): ?array
