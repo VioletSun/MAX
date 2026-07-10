@@ -105,7 +105,7 @@ final class Update extends BaseObject
         return $this->update_type ?? null;
     }
 
-    public function saveData(?bool $enqueue = false): void
+    public function saveData(?bool $enqueue = false): static
     {
         $chatId = $this->getChatId();
         $chatUserId = $this->getUserChatId();
@@ -163,6 +163,7 @@ final class Update extends BaseObject
             'data'       => $this->toArray(),
             'processing' => $enqueue ? UpdateProcessingEnum::InProgress : UpdateProcessingEnum::Backlog
         ]);
+        return $this;
     }
 
     public function enqueue(): void
