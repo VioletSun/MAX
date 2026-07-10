@@ -110,7 +110,7 @@ final class Update extends BaseObject
         $chatId = $this->getChatId();
         $chatUserId = $this->getUserChatId();
         $userData = $this->userDataHandleToDB();
-        $userId = $userData['user_id'] ?? null;
+        $userId = $this->getUserId();
         $type = $this->update_type;
 
         // MaxUser
@@ -240,6 +240,7 @@ final class Update extends BaseObject
         $datum = [];
         if ($userData = $this->getUserData()) {
             foreach ($userData as $key => $val) {
+                if ($key == 'last_active') $val = now();
                 if (is_null($val)) continue;
                 if ($key == 'private' && $val === false) continue;
                 $datum[$key] = $val;
