@@ -27,6 +27,10 @@ use VioletSun\MAX\Support\BaseObject;
  */
 final class Update extends BaseObject
 {
+    public MaxUser|null $maxUser = null;
+    public MaxUpdate|null $maxUpdate = null;
+    public MaxChat|null $maxChat = null;
+
     public static function fromArray(array $data): static
     {
         $type = UpdateTypeEnum::tryFrom($data['update_type']);
@@ -110,33 +114,31 @@ final class Update extends BaseObject
         $type = $this->update_type;
 
         // MaxUser
-        $maxUser = null;
         if (!empty($userData) && !empty($chatUserId) && !empty($userId)) {
-            $maxUser = MaxUser::query()->updateOrCreate(
+            $this->maxUser = MaxUser::query()->updateOrCreate(
                 ['chat_id' => $chatUserId, 'user_id' => $userId],
                 Arr::only($userData, [
                     'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'last_active'
                 ])
             );
         } elseif (!empty($userData) && empty($chatUserId) && !empty($userId)) {
-            $maxUser = MaxUser::query()->updateOrCreate(
+            $this->maxUser = MaxUser::query()->updateOrCreate(
                 ['user_id' => $userId],
                 Arr::only($userData, [
                     'first_name', 'last_name', 'username', 'last_active', 'avatar_url', 'full_avatar_url', 'last_active'
                 ])
             );
         }
-        if ($type === UpdateTypeEnum::BotStarted && $maxUser) {
-            $maxUser->update(['private' => true]);
-        } elseif ($type === UpdateTypeEnum::BotStopped && $maxUser) {
-            $maxUser->update(['private' => false]);
+        if ($type === UpdateTypeEnum::BotStarted && $this->maxUser) {
+            $this->maxUser->update(['private' => true]);
+        } elseif ($type === UpdateTypeEnum::BotStopped && $this->maxUser) {
+            $this->maxUser->update(['private' => false]);
         }
 
         // MaxChat
-        $maxChat = null;
         if ($chatId < 0 && $type == UpdateTypeEnum::BotAdded) {
             $chatInfo = MAX::chatInfo($chatId);
-            $maxChat = MaxChat::query()->updateOrCreate(
+            $this->maxChat = MaxChat::query()->updateOrCreate(
                 ['chat_id' => $chatInfo->chat_id],
                 $chatInfo->only([
                     'type','status','title','last_event_time','participants_count','is_public','link','messages_count',
@@ -145,16 +147,16 @@ final class Update extends BaseObject
         } elseif ($chatId < 0 && $type == UpdateTypeEnum::BotRemoved) {
             MaxChat::query()->where('chat_id', $chatId)->update(['status' => ChatStatusEnum::Removed]);
         } elseif ($chatId < 0) {
-            $maxChat = MaxChat::query()->where('chat_id', $chatId)->first();
+            $this->maxChat = MaxChat::query()->where('chat_id', $chatId)->first();
         }
-        if ($type == UpdateTypeEnum::UserAdded && $maxChat && $maxUser && $maxChat->maxUsers()->where('user_id', $chatUserId)->doesntExist()) {
-            $maxChat->maxUsers()->attach($maxUser);
-        } elseif ($type == UpdateTypeEnum::UserRemoved && $maxChat && $maxUser) {
-            $maxChat->maxUsers()->detach($maxUser);
+        if ($type == UpdateTypeEnum::UserAdded && $this->maxChat && $this->maxUser && $this->maxChat->maxUsers()->where('user_id', $chatUserId)->doesntExist()) {
+            $this->maxChat->maxUsers()->attach($this->maxUser);
+        } elseif ($type == UpdateTypeEnum::UserRemoved && $this->maxChat && $this->maxUser) {
+            $this->maxChat->maxUsers()->detach($this->maxUser);
         }
 
         // MaxUpdate
-        MaxUpdate::query()->create([
+        $this->maxUpdate = MaxUpdate::query()->create([
             'type'       => $type,
             'chat_id'    => $chatId,
             'user_id'    => $userId,
