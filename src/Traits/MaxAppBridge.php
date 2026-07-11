@@ -2,6 +2,8 @@
 
 namespace VioletSun\MAX\Traits;
 
+use App\Models\Max\MaxUser;
+
 trait MaxAppBridge
 {
     private function initUserData(string $key, $default = null)
@@ -16,5 +18,13 @@ trait MaxAppBridge
         $request = $this->request ?? null;
         $data = $request?->input('data', []) ?? [];
         return  $data[$key] ?? $default;
+    }
+
+    public function maxUser(): ?MaxUser
+    {
+        if ($user_id = $this->initUserData('id')) {
+            return MaxUser::query()->where('user_id', $user_id)->first();
+        }
+        return null;
     }
 }
