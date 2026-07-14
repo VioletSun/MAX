@@ -10,6 +10,9 @@ trait MaxAppBridge
     {
         $request = $this->request ?? null;
         $initData = $request?->input('init_data', []) ?? [];
+        if (is_string($initData)) {
+            $initData = @json_decode($initData, true)   ;
+        }
         return  $initData['user'][$key] ?? $default;
     }
 
