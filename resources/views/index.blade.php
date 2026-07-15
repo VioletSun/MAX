@@ -8,8 +8,10 @@
     <meta name="app-token" content="{{ max_make_app_token() }}">
 
     <!-- Obligatorily for MAX-->
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://trusted-platform.com;">
-    <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://web.max.ru">
+    @if(app()->isProduction())
+        <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://trusted-platform.com;">
+        <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://web.max.ru">
+    @endif
 
     <title>{{ config('app.name', '') }}</title>
 
