@@ -15,7 +15,7 @@
 
     <!-- Style -->
     <link href="{{ asset('vendor/violetsun/max/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/violetsun/max/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/violetsun/max/css/app.css') }}?{{ rand(1, 999999) }}" rel="stylesheet">
 </head>
 <body>
 <main>
@@ -34,5 +34,5 @@
 <script src="{{ asset('vendor/violetsun/max/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/violetsun/max/js/jquery-3.7.0.min.js') }}"></script>
 
-<script src="{{ asset('vendor/violetsun/max/js/app.js') }}"></script>
+<script src="{{ asset('vendor/violetsun/max/js/app.js') }}?{{ rand(1, 999999) }}"></script>
 </html>
