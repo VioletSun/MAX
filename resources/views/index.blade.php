@@ -18,6 +18,9 @@
     <!-- Style -->
     <link href="{{ asset('vendor/violetsun/max/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/violetsun/max/css/app.css') }}?{{ rand(1, 999999) }}" rel="stylesheet">
+    <script>
+        const app_is_production = {{ app()->isProduction() ? 'true' : 'false' }};
+    </script>
 </head>
 <body>
 <main>
