@@ -69,6 +69,15 @@ class MessageBuilder
     }
 
     /**
+     * @return $this
+     */
+    public function disableNotify(): MessageBuilder
+    {
+        $this->notify = false;
+        return $this;
+    }
+
+    /**
      * @param callable $callback
      * <code>
      * ->attachments(function (AttachmentsBuilder $builder) {

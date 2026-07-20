@@ -11,6 +11,47 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VioletSun/MAX)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
+## Functionality
+
+`violetsun/max` is a Laravel package for integration with the official MAX API.
+
+The package provides a convenient way to work with MAX bots and chats directly from a Laravel application: sending messages, uploading files, working with attachments, handling chats and users, and using a fluent message builder.
+
+### Main features
+
+- Integration with the official MAX API.
+- Laravel facade for simple API calls.
+- Sending text messages to chats and users.
+- Editing and deleting messages.
+- Fluent `MessageBuilder` for building complex messages.
+- Support for message attachments:
+    - images;
+    - videos;
+    - audio;
+    - files;
+    - stickers;
+    - contacts;
+    - locations;
+    - shared links;
+    - inline keyboards.
+- Uploading local files to MAX and using returned upload tokens.
+- Inline keyboard builder with support for:
+    - callback buttons;
+    - link buttons;
+    - geolocation request buttons;
+    - contact request buttons;
+    - open app buttons;
+    - message buttons;
+    - clipboard buttons.
+- Eloquent models for storing MAX users and chats.
+- Many-to-many relation between MAX chats and MAX users.
+- Optional saving of update data in the application database.
+- Optional queue support for processing updates.
+- Publishable config, migrations, models, assets and services.
+
+### Laravel integration
+
+The package registers a Laravel service provider and exposes the MAX API client through the `MAX` facade:
 
 
 ## Installation

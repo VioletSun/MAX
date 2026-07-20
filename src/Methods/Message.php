@@ -81,6 +81,7 @@ trait Message
         }
         return $data;
     }
+
     public function builder(): MessageBuilder
     {
         return new MessageBuilder();
