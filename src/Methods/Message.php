@@ -7,6 +7,7 @@ use VioletSun\MAX\Builder\MessageBuilder;
 use VioletSun\MAX\Client;
 use VioletSun\MAX\Enums\MessageFormatEnum;
 use VioletSun\MAX\Objects\AbstractObject;
+use VioletSun\MAX\Objects\Message\Message as MessageObject;
 
 /**
  * Class Message.
@@ -31,9 +32,9 @@ trait Message
      * @link https://dev.max.ru/docs-api/methods/POST/messages
      */
 
-    public function sendMessage(int|string $chat_id, array $data): AbstractObject
+    public function sendMessage(int|string $chat_id, array $data): MessageObject
     {
-        return AbstractObject::fromArray($this->client->post("messages", $this->handleData($data), ["chat_id" => $chat_id]));
+        return MessageObject::fromArray($this->client->post("messages", $this->handleData($data), ["chat_id" => $chat_id]));
     }
 
     /**

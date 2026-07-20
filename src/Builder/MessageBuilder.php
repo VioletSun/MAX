@@ -6,6 +6,7 @@ use VioletSun\MAX\Enums\MessageFormatEnum;
 use VioletSun\MAX\Exceptions\MessageException;
 use VioletSun\MAX\Facades\MAX;
 use VioletSun\MAX\Objects\AbstractObject;
+use VioletSun\MAX\Objects\Message\Message;
 
 class MessageBuilder
 {
@@ -141,10 +142,10 @@ class MessageBuilder
     }
 
     /**
-     * @return AbstractObject
+     * @return Message
      * @throws MessageException
      */
-    public function send(): AbstractObject
+    public function send(): Message
     {
         if (empty($this->chat_id)) {
             throw MessageException::required('chat_id');
