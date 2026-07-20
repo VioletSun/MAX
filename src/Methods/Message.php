@@ -34,7 +34,8 @@ trait Message
 
     public function sendMessage(int|string $chat_id, array $data): MessageObject
     {
-        return MessageObject::fromArray($this->client->post("messages", $this->handleData($data), ["chat_id" => $chat_id]));
+        $response = $this->client->post("messages", $this->handleData($data), ["chat_id" => $chat_id]);
+        return MessageObject::fromArray($response['message'] ?? []);
     }
 
     /**
