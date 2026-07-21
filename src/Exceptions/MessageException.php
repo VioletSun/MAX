@@ -9,7 +9,7 @@ class MessageException extends Exception
 {
     public static function required(string $key): self
     {
-        return new self("Required parameter '{$key}'");
+        return new self("Required or invalid parameter: '{$key}'");
     }
 
     public static function uploads(AbstractObject $object): self
