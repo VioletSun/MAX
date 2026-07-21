@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX\Objects;
 
 use Carbon\Carbon;
@@ -21,7 +23,7 @@ final class Subscription extends BaseObject
         }
         return new static([
             'url' => $data['url'],
-            'time' => Carbon::createFromTimestampMs($data['time']),
+            'time' => self::carbonFromTimestampMs($data['time'] ?? null),
             'update_types' => $update_types,
         ]);
     }

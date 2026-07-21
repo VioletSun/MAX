@@ -27,7 +27,7 @@ final class User extends BaseObject
             'first_name' => $data['first_name'] ?? null,
             'last_name' => $data['last_name'] ?? null,
             'is_bot' => $data['is_bot'] ?? null,
-            'last_activity_time' => !empty($data['last_activity_time']) ? now()->createFromTimestampMs($data['last_activity_time']) : null,
+            'last_activity_time' => self::carbonFromTimestampMs($data['last_activity_time'] ?? null),
             'avatar_url' => $data['avatar_url'] ?? null,
             'full_avatar_url' => $data['full_avatar_url'] ?? null,
             'username' => $data['username'] ?? null,

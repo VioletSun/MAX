@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX;
 
 use GuzzleHttp\Client as GuzzleClient;

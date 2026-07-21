@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VioletSun\MAX\Support;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -51,5 +52,16 @@ abstract class BaseObject extends Collection
     {
         $v = $this->get($key);
         return is_array($v) ? $v : $default;
+    }
+
+    protected static function carbonFromTimestampMs(mixed $value): ?Carbon
+    {
+        if ($value === null || $value === '' || $value === 0) {
+            return null;
+        }
+        if (!is_numeric($value)) {
+            return null;
+        }
+        return Carbon::createFromTimestampMs((int) $value);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX\Objects\Chat;
 
 use Carbon\Carbon;
@@ -36,7 +38,7 @@ final class Chat extends BaseObject
             'status' => !empty($data['status']) ? ChatStatusEnum::tryFrom($data['status']) : null,
             'title' => $data['title'] ?? null,
             'icon' => $data['icon']['url'] ?? null,
-            'last_event_time' => !empty($data['last_event_time']) ? Carbon::createFromTimestampMs($data['last_event_time']) : null,
+            'last_event_time' => self::carbonFromTimestampMs($data['last_event_time'] ?? null),
             'participants_count' => $data['participants_count'] ?? null,
             'owner_id' => $data['owner_id'] ?? null,
             'participants' => $data['participants'] ?? null,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VioletSun\MAX\Objects\Chat;
 
 use Carbon\Carbon;
@@ -38,17 +40,17 @@ final class Member extends BaseObject
             $permissions[] = ChatAdminPermissionEnum::tryFrom($replace);
         }
         return new self([
-            'last_access_time' => !empty($data['last_access_time']) ? Carbon::createFromTimestampMs($data['last_access_time']) : null,
+            'last_access_time' => self::carbonFromTimestampMs($data['last_access_time'] ?? null),
             'is_owner' => $data['is_owner'] ?? false,
             'is_admin' => $data['is_admin'] ?? false,
-            'join_time' => !empty($data['join_time']) ? Carbon::createFromTimestampMs($data['join_time']) : null,
+            'join_time' => self::carbonFromTimestampMs($data['join_time'] ?? null),
             'permissions' => $permissions,
             'user_id' => $data['user_id'] ?? null,
             'first_name' => $data['first_name'] ?? null,
             'last_name' => $data['last_name'] ?? null,
             'username' => $data['username'] ?? null,
             'is_bot' => $data['is_bot'] ?? false,
-            'last_activity_time' => !empty($data['last_activity_time']) ? Carbon::createFromTimestampMs($data['last_activity_time']) : null,
+            'last_activity_time' => self::carbonFromTimestampMs($data['last_activity_time'] ?? null),
             'description' => $data['description'] ?? null,
             'avatar_url' => $data['avatar_url'] ?? null,
             'full_avatar_url' => $data['full_avatar_url'] ?? null,

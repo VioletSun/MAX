@@ -51,8 +51,10 @@ final class Updates extends BaseObject
                         $update->enqueue();
                     }
                 } catch (\Throwable $e) {
-                    // логируем и продолжаем
-                    // logger()->error('Update processing failed', ['e' => $e, 'update' => $update]);
+                    logger()->error('MAX update processing failed', [
+                        'exception' => $e,
+                        'update' => $update instanceof Update ? $update->toArray() : $update,
+                    ]);
                 }
             }
         }
