@@ -57,4 +57,12 @@ return [
         'secret' => env('MAX_WEBHOOK_SECRET'),
     ],
 
+    /*-------------------------------------------------------------------------|
+    | Routes                                                                   |
+    |-------------------------------------------------------------------------*/
+    'routes' => [
+        'enabled' => env('MAX_ROUTES_ENABLED', true),
+        'prefix' => env('MAX_ROUTES_PREFIX', 'api'),
+        'middleware' => ['api'],
+    ],
 ];

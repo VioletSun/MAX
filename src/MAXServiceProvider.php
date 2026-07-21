@@ -15,7 +15,7 @@ class MAXServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'max');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'max');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'max');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
 //        $this->loadRoutesFrom(__DIR__.'/../routes/max.php');
@@ -80,19 +80,19 @@ class MAXServiceProvider extends ServiceProvider
         ], 'max-config');
 
         $this->publishes([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'max-migrations');
 
         $this->publishes([
-            __DIR__.'/Models' => app_path('Models'),
+            __DIR__ . '/Models' => app_path('Models'),
         ], 'max-models');
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/violetsun/max'),
+            __DIR__ . '/../public' => public_path('vendor/violetsun/max'),
         ], 'max-assets');
 
         $this->publishes([
-            __DIR__.'/Services' => app_path('Services/Max'),
+            __DIR__ . '/Services' => app_path('Services/Max'),
         ], 'max-services');
 
         // Registering package commands.
@@ -104,8 +104,11 @@ class MAXServiceProvider extends ServiceProvider
      */
     protected function registerRoutes(): void
     {
+        if (!config('max.routes.enabled', true)) {
+            return;
+        }
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/max.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/max.php');
         });
     }
 
@@ -115,8 +118,8 @@ class MAXServiceProvider extends ServiceProvider
     protected function routeConfiguration(): array
     {
         return [
-            'prefix' => 'api',          // Optional: Adds a versioned path prefix
-            'middleware' => ['api'],       // Crucial: Applies stateless API middleware group
+            'prefix' => config('max.routes.prefix', 'api'),     // Optional: Adds a versioned path prefix
+            'middleware' => config('max.routes.middleware', ['api']), // Crucial: Applies stateless API middleware group
         ];
     }
 }
