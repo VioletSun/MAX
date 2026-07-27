@@ -162,6 +162,26 @@ $queueMessage = MaxMessageQueue::query()->first();
 $queueMessage?->sendQueuedMessage();
 ```
 
+or in routes/console.php
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('max:message-queue:handle')
+    ->everyThirtySeconds()
+    ->withoutOverlapping();
+```
+
+After this, the Laravel scheduler should be started:
+```php
+php artisan schedule:work
+```
+
+For production, it is usually run via cron every minute:
+```shell
+* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
