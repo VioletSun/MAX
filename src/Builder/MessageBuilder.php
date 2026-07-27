@@ -7,7 +7,7 @@ namespace VioletSun\MAX\Builder;
 use VioletSun\MAX\Enums\MessageFormatEnum;
 use VioletSun\MAX\Exceptions\MessageException;
 use VioletSun\MAX\Facades\MAX;
-use VioletSun\MAX\Objects\AbstractObject;
+use VioletSun\MAX\Models\Max\MaxMessageQueue;
 use VioletSun\MAX\Objects\Message\Message;
 
 class MessageBuilder
@@ -28,7 +28,9 @@ class MessageBuilder
         $this->disable_link_preview = $array["disable_link_preview"] ?? false;
         $this->text = $array["text"] ?? '';
         $this->notify = $array["notify"] ?? true;
-        $this->format = $array["format"] ?? MessageFormatEnum::Html;
+        $this->format = $array["format"] instanceof MessageFormatEnum
+            ? $array["format"]
+            : MessageFormatEnum::tryFrom($array["format"] ?? MessageFormatEnum::Html->value) ?? MessageFormatEnum::Html;
         $this->attachments = $array["attachments"] ?? [];
     }
 
@@ -132,6 +134,36 @@ class MessageBuilder
             $data['attachments'] = $this->attachments;
         }
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $data = $this->handleData();
+
+        if (!empty($this->message_id)) {
+            $data['message_id'] = $this->message_id;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return MaxMessageQueue
+     * @throws MessageException
+     */
+    public function queue(): MaxMessageQueue
+    {
+        if (empty($this->chat_id)) {
+            throw MessageException::required('chat_id');
+        }
+
+        return MaxMessageQueue::query()->create([
+            'chat_id' => $this->chat_id,
+            'data' => $this->toArray(),
+        ]);
     }
 
     /**
