@@ -28,9 +28,11 @@ class MessageBuilder
         $this->disable_link_preview = $array["disable_link_preview"] ?? false;
         $this->text = $array["text"] ?? '';
         $this->notify = $array["notify"] ?? true;
-        $this->format = $array["format"] instanceof MessageFormatEnum
+        $this->format = isset($array["format"]) ? (
+        $array["format"] instanceof MessageFormatEnum
             ? $array["format"]
-            : MessageFormatEnum::tryFrom($array["format"] ?? MessageFormatEnum::Html->value) ?? MessageFormatEnum::Html;
+            : MessageFormatEnum::tryFrom($array["format"] ?? MessageFormatEnum::Html->value) ?? MessageFormatEnum::Html
+        ) : MessageFormatEnum::Html;
         $this->attachments = $array["attachments"] ?? [];
     }
 
