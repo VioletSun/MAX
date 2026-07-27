@@ -6,6 +6,7 @@ namespace VioletSun\MAX;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use VioletSun\MAX\Console\Commands\Max\MaxMessageQueueHandle;
 
 class MAXServiceProvider extends ServiceProvider
 {
@@ -98,7 +99,9 @@ class MAXServiceProvider extends ServiceProvider
         ], 'max-services');
 
         // Registering package commands.
-        // $this->commands([]);
+        $this->commands([
+            MaxMessageQueueHandle::class,
+        ]);
     }
 
     /**
