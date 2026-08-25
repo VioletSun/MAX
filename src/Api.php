@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VioletSun\MAX;
 
 use VioletSun\MAX\Methods\Chat;
+use VioletSun\MAX\Methods\Commands;
 use VioletSun\MAX\Methods\Get;
 use VioletSun\MAX\Methods\Message;
 use VioletSun\MAX\Methods\Uploads;
@@ -17,6 +18,7 @@ class Api
     use Chat;
     use Webhook;
     use Uploads;
+    use Commands;
 
     public function __construct(protected Client $client)
     {
