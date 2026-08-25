@@ -25,8 +25,10 @@ trait Commands
      *
      * <code>
      *  $commands = [
-     *    "name" => "string",
-     *    "description" => "string"
+     *    [
+     *        "name" => "string",
+     *        "description" => "string"
+     *    ]
      *  ];
      * </code>
      *
