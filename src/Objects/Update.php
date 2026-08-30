@@ -149,7 +149,7 @@ final class Update extends BaseObject
         } elseif ($chatId < 0) {
             $this->maxChat = MaxChat::query()->where('chat_id', $chatId)->first();
         }
-        if ($type == UpdateTypeEnum::UserAdded && $this->maxChat && $this->maxUser && $this->maxChat->maxUsers()->where('user_id', $chatUserId)->doesntExist()) {
+        if ($type == UpdateTypeEnum::UserAdded && $this->maxChat && $this->maxUser && $this->maxChat->maxUsers()->where('max_users.user_id', $userId)->doesntExist()) {
             $this->maxChat->maxUsers()->attach($this->maxUser);
         } elseif ($type == UpdateTypeEnum::UserRemoved && $this->maxChat && $this->maxUser) {
             $this->maxChat->maxUsers()->detach($this->maxUser);
